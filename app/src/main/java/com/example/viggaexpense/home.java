@@ -5,11 +5,13 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -23,11 +25,12 @@ public class home extends AppCompatActivity {
 //    NavigationView navigationView;
 //    ListView listView;
     EditText test;
+    Button goAddTrip;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        fullnameuser = (TextView)findViewById(R.id.helloname);
+        mapping();
         SharedPreferences sharedPreferences = getSharedPreferences("account_info", MODE_PRIVATE);
         String fullnamehome = sharedPreferences.getString("KEY_FULLNAME", "");
         Log.d("MyApp", "fullnamehome: " + fullnamehome);
@@ -38,6 +41,18 @@ public class home extends AppCompatActivity {
 //        listView = (ListView)findViewById(R.id.lv);
 //        actionToolbar();
 //        toolbar.setTitle("");
+        goAddTrip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent addTripPage = new Intent(home.this, newtrip.class);
+                startActivity(addTripPage);
+            }
+        });
+    }
+
+    private void mapping() {
+        fullnameuser = (TextView)findViewById(R.id.helloname);
+        goAddTrip = (Button)findViewById(R.id.goAddTrip);
     }
 
 //    private void actionToolbar() {
