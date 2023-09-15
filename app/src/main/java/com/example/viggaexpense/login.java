@@ -45,10 +45,14 @@ public class login extends AppCompatActivity {
                     Toast.makeText(login.this, "Logged in successfully", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(login.this, home.class);
                     startActivity(intent);
+                    SharedPreferences preferences = getSharedPreferences("my_prefs", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putBoolean("isLoggedIn", true);
+                    editor.commit();
                 }
                 else {
                     if(!enteredUsername.equals(savedUsername)){
-                        Toast.makeText(login.this, "Wrong User name", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(login.this, "Account does not exist", Toast.LENGTH_SHORT).show();
                     }
                     else if(!enteredPassword.equals(savedPassword)){
                         Toast.makeText(login.this, "Wrong Password", Toast.LENGTH_SHORT).show();
