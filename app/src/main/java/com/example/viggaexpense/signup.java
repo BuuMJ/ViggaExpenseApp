@@ -37,14 +37,21 @@ public class signup extends AppCompatActivity {
         signup.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("KEY_FULLNAME",fullnameSignup.getText().toString());
-                editor.putString("KEY_USERNAME",usernameSignup.getText().toString());
-                editor.putString("KEY_PASSWORD",passwordSignup.getText().toString());
-                editor.commit();
-                Toast.makeText(signup.this,"Sign Up Success", Toast.LENGTH_SHORT).show();
-                Intent success = new Intent(signup.this, login.class);
-                startActivity(success);
+                String newUsername = usernameSignup.getText().toString();
+                String existingUsername = sharedPreferences.getString("KEY_USERNAME", "");
+                if(existingUsername.equals(newUsername)){
+                    Toast.makeText(signup.this, "Username already exists", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("KEY_FULLNAME",fullnameSignup.getText().toString());
+                    editor.putString("KEY_USERNAME",usernameSignup.getText().toString());
+                    editor.putString("KEY_PASSWORD",passwordSignup.getText().toString());
+                    editor.apply();
+                    Toast.makeText(signup.this,"Sign Up Success", Toast.LENGTH_SHORT).show();
+                    Intent success = new Intent(signup.this, login.class);
+                    startActivity(success);
+                }
             }
         });
     }
