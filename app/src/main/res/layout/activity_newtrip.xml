@@ -14,15 +14,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:background="@drawable/inputstyle"
-        app:backgroundTint="@null"
         android:orientation="vertical"
         android:paddingLeft="10dp"
         android:paddingTop="10dp"
         android:paddingRight="10dp"
         android:paddingBottom="6dp"
-        android:layout_marginTop="16dp"
-        >
+        app:backgroundTint="@null">
 
         <TextView
             android:id="@+id/textView17"
@@ -38,6 +37,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/inputbottom"
             android:ems="10"
+            android:hint="Enter trip name here..."
             android:inputType="text"
             android:textColor="@color/black"
             android:textSize="18dp"
@@ -47,14 +47,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_marginTop="8dp"
         android:background="@drawable/inputstyle"
-        app:backgroundTint="@null"
+        android:orientation="vertical"
         android:paddingLeft="10dp"
         android:paddingTop="10dp"
         android:paddingRight="10dp"
         android:paddingBottom="6dp"
-        android:layout_marginTop="8dp">
+        app:backgroundTint="@null">
 
         <TextView
             android:id="@+id/textView18"
@@ -71,6 +71,37 @@
             android:background="@drawable/inputbottom"
             android:ems="10"
             android:hint="0.00"
+            android:inputType="number"
+            android:textColor="@color/black"
+            android:textSize="18dp"
+            app:backgroundTint="@null" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/inputstyle"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="6dp"
+        app:backgroundTint="@null">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Destination"
+            android:textColor="@color/black"
+            android:textSize="18dp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/inputbottom"
+            android:ems="10"
+            android:hint="Enter destination here..."
             android:inputType="text"
             android:textColor="@color/black"
             android:textSize="18dp"
@@ -80,80 +111,150 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@drawable/inputstyle"
-        app:backgroundTint="@null"
-        android:paddingLeft="10dp"
-        android:paddingTop="10dp"
-        android:paddingRight="10dp"
-        android:paddingBottom="6dp"
-        android:layout_marginTop="8dp">
+        android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Start Date"
-            android:textColor="@color/black"
-            android:textSize="18dp" />
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="4dp"
+            android:layout_weight="1"
+            android:background="@drawable/inputstyle"
+            android:orientation="vertical"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="6dp"
+            app:backgroundTint="@null">
 
-        <TextView
-            android:id="@+id/datepickerstart"
-            android:layout_width="match_parent"
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Start Date"
+                android:textColor="@color/black"
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/datepickerstart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/inputbottom"
+                android:text="TextView"
+                android:textColor="@color/black"
+                android:textSize="18dp"
+                app:backgroundTint="@null" />
+
+            <!--        <EditText-->
+            <!--            android:id="@+id/editTextDate"-->
+            <!--            android:layout_width="match_parent"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:ems="10"-->
+            <!--            android:hint="Today"-->
+            <!--            android:inputType="date"-->
+            <!--            android:textColor="@color/black"-->
+            <!--            android:textColorHint="@color/black"-->
+            <!--            android:textSize="18dp"-->
+            <!--            app:backgroundTint="@null"-->
+            <!--            android:background="@drawable/inputbottom"/>-->
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/inputstyle"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="6dp"
+            app:backgroundTint="@null">
 
-        <!--        <EditText-->
-<!--            android:id="@+id/editTextDate"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:ems="10"-->
-<!--            android:hint="Today"-->
-<!--            android:inputType="date"-->
-<!--            android:textColor="@color/black"-->
-<!--            android:textColorHint="@color/black"-->
-<!--            android:textSize="18dp"-->
-<!--            app:backgroundTint="@null"-->
-<!--            android:background="@drawable/inputbottom"/>-->
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="End Date"
+                android:textColor="@color/black"
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/datepickerend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/inputbottom"
+                android:text="TextView"
+                android:textColor="@color/black"
+                android:textSize="18dp"
+                app:backgroundTint="@null" />
+
+            <!--        <EditText-->
+            <!--            android:id="@+id/editTextDate2"-->
+            <!--            android:layout_width="match_parent"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:ems="10"-->
+            <!--            android:inputType="date"-->
+            <!--            app:backgroundTint="@null"-->
+            <!--            android:background="@drawable/inputbottom"/>-->
+
+
+        </LinearLayout>
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_marginTop="8dp"
         android:background="@drawable/inputstyle"
-        app:backgroundTint="@null"
+        android:orientation="vertical"
         android:paddingLeft="10dp"
         android:paddingTop="10dp"
         android:paddingRight="10dp"
         android:paddingBottom="6dp"
-        android:layout_marginTop="8dp"
-        android:gravity="center">
+        app:backgroundTint="@null">
 
         <TextView
-            android:id="@+id/textView12"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="End Date"
+            android:text="Description"
             android:textColor="@color/black"
             android:textSize="18dp" />
 
-        <TextView
-            android:id="@+id/datepickerend"
+        <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView" />
-
-        <!--        <EditText-->
-<!--            android:id="@+id/editTextDate2"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:ems="10"-->
-<!--            android:inputType="date"-->
-<!--            app:backgroundTint="@null"-->
-<!--            android:background="@drawable/inputbottom"/>-->
-
-
+            android:background="@drawable/inputbottom"
+            android:ems="10"
+            android:hint="Enter Description here..."
+            android:inputType="text"
+            android:textColor="@color/black"
+            android:textSize="18dp"
+            app:backgroundTint="@null" />
     </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Agree to the terms and information above"
+        android:textSize="18dp" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Create Trip"
+        android:textColor="@color/white"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:background="@drawable/btnnewtrip"
+        app:backgroundTint="@null"/>
 
 </LinearLayout>

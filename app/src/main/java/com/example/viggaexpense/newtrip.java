@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -46,6 +47,7 @@ public class newtrip extends AppCompatActivity {
             }
         });
     }
+
     protected void mapping(){
         datePickerEndDate = (TextView)findViewById(R.id.datepickerend);
         datePickerStartDate = (TextView)findViewById(R.id.datepickerstart);
