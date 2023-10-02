@@ -32,7 +32,7 @@
             android:textSize="18dp" />
 
         <EditText
-            android:id="@+id/editTextText2"
+            android:id="@+id/edtTripName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/inputbottom"
@@ -65,7 +65,7 @@
             android:textSize="18dp" />
 
         <EditText
-            android:id="@+id/editTextText4"
+            android:id="@+id/edtBudget"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/inputbottom"
@@ -97,6 +97,7 @@
             android:textSize="18dp" />
 
         <EditText
+            android:id="@+id/edtDesti"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/inputbottom"
@@ -226,6 +227,7 @@
             android:textSize="18dp" />
 
         <EditText
+            android:id="@+id/edtDesc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/inputbottom"
@@ -238,7 +240,7 @@
     </LinearLayout>
 
     <CheckBox
-        android:id="@+id/checkBox"
+        android:id="@+id/checkReuire"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -246,7 +248,7 @@
         android:textSize="18dp" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnCrateTrip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"

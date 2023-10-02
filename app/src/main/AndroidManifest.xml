@@ -13,8 +13,11 @@
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
         tools:targetApi="31">
         <activity
+            android:name=".listtrip"
+            android:exported="false" />
+        <activity
             android:name=".newtrip"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".signup"
             android:exported="false" />
