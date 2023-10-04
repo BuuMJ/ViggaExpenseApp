@@ -7,6 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DatabaseHelpers extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "list_trip";
     private static final String ID_COLUMN_NAME = "trip_id";
@@ -77,12 +80,13 @@ public class DatabaseHelpers extends SQLiteOpenHelper {
         rowValues.put(USER_TRIP_ID_COLUMN_NAME, tripId);
         return database.insertOrThrow(USER_TABLE_NAME, null, rowValues);
     }
-    public String getDetails(){
+    public List<dataTrip> getDetails() {
+        List<dataTrip> tripList = new ArrayList<>();
         Cursor results = database.query("list_trip",
-                new String[]{"trip_id", "name", "budget", "desti", "start_date", "end_date", "desc"}, null, null,null,null, "nam");
-        String listTripText = "";
+                new String[]{"trip_id", "name", "budget", "desti", "start_date", "end_date", "desc"}, null, null, null, null, "name");
+
         results.moveToFirst();
-        while (!results.isAfterLast()){
+        while (!results.isAfterLast()) {
             int id = results.getInt(0);
             String name = results.getString(1);
             String budget = results.getString(2);
@@ -90,9 +94,14 @@ public class DatabaseHelpers extends SQLiteOpenHelper {
             String start_date = results.getString(4);
             String end_date = results.getString(5);
             String desc = results.getString(6);
-            listTripText += id + " " + name + " " + budget + " " + desti + " " + start_date + " " + end_date + " " + desc + " \n";
+
+            dataTrip trip = new dataTrip(id, name, budget, desti, start_date, end_date, desc);
+            tripList.add(trip);
             results.moveToNext();
         }
-        return listTripText;
+
+        results.close();
+        return tripList;
     }
+
 }

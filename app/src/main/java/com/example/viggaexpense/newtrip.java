@@ -3,6 +3,7 @@ package com.example.viggaexpense;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -101,6 +102,8 @@ public class newtrip extends AppCompatActivity {
         else{
             createNewTrip();
             Toast.makeText(newtrip.this, "The new trip has been successfully created", Toast.LENGTH_SHORT).show();
+            Intent listTrip = new Intent(this, listtrip.class);
+            startActivity(listTrip);
         }
     }
     private void  createNewTrip(){

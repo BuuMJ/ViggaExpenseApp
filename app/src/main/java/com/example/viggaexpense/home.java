@@ -25,7 +25,7 @@ public class home extends AppCompatActivity {
 //    NavigationView navigationView;
 //    ListView listView;
     EditText test;
-    Button goAddTrip;
+    Button goAddTrip, goListTrip;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,11 +48,21 @@ public class home extends AppCompatActivity {
                 startActivity(addTripPage);
             }
         });
+        goListTrip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent listTripPage = new Intent(home.this, listtrip.class);
+                startActivity(listTripPage);
+            }
+        });
+
     }
+
 
     private void mapping() {
         fullnameuser = (TextView)findViewById(R.id.helloname);
         goAddTrip = (Button)findViewById(R.id.goAddTrip);
+        goListTrip = (Button)findViewById(R.id.goTripList);
     }
 
 //    private void actionToolbar() {
