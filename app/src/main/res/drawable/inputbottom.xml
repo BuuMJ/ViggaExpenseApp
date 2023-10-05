@@ -12,10 +12,10 @@
 
             <solid android:color="#00FFFFFF" />
 
-            <padding android:left="10dp"
-                android:right="10dp"
-                android:top="10dp"
-                android:bottom="10dp" />
+            <padding android:left="0dp"
+                android:right="6dp"
+                android:top="6dp"
+                android:bottom="6dp" />
         </shape>
     </item>
 

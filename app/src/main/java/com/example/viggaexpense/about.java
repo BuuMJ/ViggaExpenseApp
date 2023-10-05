@@ -8,56 +8,25 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class home extends AppCompatActivity {
-    TextView fullnameuser;
-//    Toolbar toolbar;
-//    DrawerLayout drawerLayout;
-//    NavigationView navigationView;
-//    ListView listView;
-    EditText test;
+public class about extends AppCompatActivity {
     DrawerLayout drawerLayout;
     ImageView menu, closeMenuIcon;
     LinearLayout nav_home, nav_newtrip, nav_listtrip, nav_about, nav_logout;
-    Button goAddTrip, goListTrip;
+    TextView titleMenu;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_about);
         mapping();
-        SharedPreferences sharedPreferences = getSharedPreferences("account_info", MODE_PRIVATE);
-        String fullnamehome = sharedPreferences.getString("KEY_FULLNAME", "");
-        Log.d("MyApp", "fullnamehome: " + fullnamehome);
-        fullnameuser.setText(fullnamehome);
-//        toolbar = (Toolbar)findViewById(R.id.toolbar);
-//        drawerLayout = (DrawerLayout)findViewById(R.id.drawerLayout);
-//        navigationView = (NavigationView)findViewById(R.id.navigationView);
-//        listView = (ListView)findViewById(R.id.lv);
-//        actionToolbar();
-//        toolbar.setTitle("");
-        goAddTrip.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent addTripPage = new Intent(home.this, newtrip.class);
-                startActivity(addTripPage);
-            }
-        });
-        goListTrip.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent listTripPage = new Intent(home.this, listtrip.class);
-                startActivity(listTripPage);
-            }
-        });
-        nav_home.setBackgroundColor(getResources().getColor(R.color.nav_color));
+        nav_about.setBackgroundColor(getResources().getColor(R.color.nav_color));
+        titleMenu.setText("About Us");
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,25 +42,25 @@ public class home extends AppCompatActivity {
         nav_home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                recreate();
+                redirectActivity(about.this, home.class);
             }
         });
         nav_newtrip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redirectActivity(home.this, newtrip.class);
+                redirectActivity(about.this, newtrip.class);
             }
         });
         nav_listtrip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redirectActivity(home.this, listtrip.class);
+                redirectActivity(about.this, listtrip.class);
             }
         });
         nav_about.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redirectActivity(home.this, about.class);
+                recreate();
             }
         });
         nav_logout.setOnClickListener(new View.OnClickListener() {
@@ -101,17 +70,13 @@ public class home extends AppCompatActivity {
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putBoolean("isLoggedIn", false);
                 editor.commit();
-                redirectActivity(home.this, MainActivity.class);
-                Toast.makeText(home.this, "Signed out successfully", Toast.LENGTH_SHORT).show();
+                redirectActivity(about.this, MainActivity.class);
+                Toast.makeText(about.this, "Signed out successfully", Toast.LENGTH_SHORT).show();
+
             }
         });
     }
-
-
     private void mapping() {
-        fullnameuser = (TextView)findViewById(R.id.helloname);
-        goAddTrip = (Button)findViewById(R.id.goAddTrip);
-        goListTrip = (Button)findViewById(R.id.goTripList);
         drawerLayout = (DrawerLayout)findViewById(R.id.drawerLayout);
         menu = (ImageView)findViewById(R.id.menu);
         nav_home = (LinearLayout)findViewById(R.id.home);
@@ -119,6 +84,7 @@ public class home extends AppCompatActivity {
         nav_listtrip = (LinearLayout)findViewById(R.id.listtrip);
         nav_about = (LinearLayout)findViewById(R.id.about);
         nav_logout = (LinearLayout)findViewById(R.id.logout);
+        titleMenu = (TextView)findViewById(R.id.titleMenu);
         closeMenuIcon = (ImageView)findViewById(R.id.closeMenuIcon);
     }
 

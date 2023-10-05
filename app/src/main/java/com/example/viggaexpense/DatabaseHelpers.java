@@ -83,7 +83,7 @@ public class DatabaseHelpers extends SQLiteOpenHelper {
     public List<dataTrip> getDetails() {
         List<dataTrip> tripList = new ArrayList<>();
         Cursor results = database.query("list_trip",
-                new String[]{"trip_id", "name", "budget", "desti", "start_date", "end_date", "desc"}, null, null, null, null, "name");
+                new String[]{"trip_id", "name", "budget", "desti", "start_date", "end_date", "desc"}, null, null, null, null, "trip_id");
 
         results.moveToFirst();
         while (!results.isAfterLast()) {
@@ -99,8 +99,6 @@ public class DatabaseHelpers extends SQLiteOpenHelper {
             tripList.add(trip);
             results.moveToNext();
         }
-
-        results.close();
         return tripList;
     }
 

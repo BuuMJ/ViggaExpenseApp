@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/backgroundmenu"
+    app:backgroundTint="@null">
+
+    <ImageView
+        android:id="@+id/closeMenuIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:src="@drawable/baseline_close_24" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,100 +26,135 @@
             android:layout_width="match_parent"
             android:layout_height="140dp"
             android:src="@drawable/vgalogo"/>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Vigga Expense"
-            android:textSize="40dp"
-            android:textColor="@color/black"
-            android:textStyle="bold"
+            android:layout_marginBottom="16dp"
             android:gravity="center_horizontal"
-            android:layout_marginBottom="16dp"/>
+            android:text="Vigga Expense"
+            android:textColor="@color/black"
+            android:textSize="40dp"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/home"
-        android:layout_marginStart="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="12dp"
-        android:orientation="horizontal">
+        android:layout_marginEnd="16dp"
+        android:orientation="horizontal"
+        android:paddingLeft="6dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Home"
-            android:textSize="20dp"
-            android:textColor="@color/black"
             android:drawableLeft="@drawable/baseline_home_24"
-            android:drawablePadding="8dp"/>
+            android:drawablePadding="8dp"
+            android:text="Home"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            android:textStyle="bold" />
     </LinearLayout>
+
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/newtrip"
-        android:layout_marginStart="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="12dp"
-        android:orientation="horizontal">
+        android:layout_marginEnd="16dp"
+        android:orientation="horizontal"
+        android:paddingStart="6dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/baseline_add_circle_24"
+            android:drawablePadding="8dp"
             android:text="New Trip"
-            android:textSize="20dp"
             android:textColor="@color/black"
-            android:drawableLeft="@drawable/baseline_addmenu_24"
-            android:drawablePadding="8dp"/>
+            android:textSize="20dp"
+            android:textStyle="bold" />
     </LinearLayout>
+
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:id="@+id/listtrip"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/triplist"
-        android:layout_marginStart="12dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="12dp"
-        android:orientation="horizontal">
+        android:layout_marginEnd="16dp"
+        android:orientation="horizontal"
+        android:paddingStart="6dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/baseline_playlist_add_circle_24"
+            android:drawablePadding="8dp"
             android:text="Trip List"
-            android:textSize="20dp"
             android:textColor="@color/black"
-            android:drawableLeft="@drawable/baseline_playlistmenu_add_24"
-            android:drawablePadding="8dp"/>
+            android:textSize="20dp"
+            android:textStyle="bold" />
     </LinearLayout>
+
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/about"
-        android:layout_marginStart="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="12dp"
-        android:orientation="horizontal">
+        android:layout_marginEnd="16dp"
+        android:orientation="horizontal"
+        android:paddingStart="6dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="About"
-            android:textSize="20dp"
-            android:textColor="@color/black"
             android:drawableLeft="@drawable/baseline_info_24"
-            android:drawablePadding="8dp"/>
+            android:drawablePadding="8dp"
+            android:text="About"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            android:textStyle="bold" />
     </LinearLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="16dp"
-        android:background="@color/mainColor"/>
+        android:background="@color/black"/>
+
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/logout"
-        android:layout_marginStart="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="12dp"
-        android:orientation="horizontal">
+        android:layout_marginEnd="16dp"
+        android:orientation="horizontal"
+        android:paddingStart="6dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Log Out"
-            android:textSize="20dp"
-            android:textColor="@color/black"
             android:drawableLeft="@drawable/baseline_logout_24"
-            android:drawablePadding="8dp"/>
+            android:drawablePadding="8dp"
+            android:text="Log Out"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            android:textStyle="bold" />
     </LinearLayout>
 </LinearLayout>

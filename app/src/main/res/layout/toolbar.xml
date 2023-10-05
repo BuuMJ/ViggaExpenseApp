@@ -14,13 +14,14 @@
         android:src="@drawable/baseline_menu_24"/>
 
     <TextView
+        android:id="@+id/titleMenu"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        android:text="Vigga Expense"
         android:layout_marginStart="12dp"
-        android:textColor="@color/white"/>
+        android:layout_weight="1"
+        android:text="Vigga Expense"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        android:textStyle="bold" />
 
 </LinearLayout>
