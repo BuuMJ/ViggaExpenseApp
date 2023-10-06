@@ -10,6 +10,8 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.text.Layout;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -38,23 +40,17 @@ public class listtrip extends AppCompatActivity {
         DatabaseHelpers dbHelpers = new DatabaseHelpers(getApplicationContext());
         List<dataTrip> tripList = dbHelpers.getDetails();
         String[] tripArray = new String[tripList.size()];
-        LinearLayout childLinearLayout = new LinearLayout(this);
-        childLinearLayout.setOrientation(LinearLayout.VERTICAL);
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        );
-        childLinearLayout.setLayoutParams(layoutParams);
         for (int i = 0; i < tripList.size(); i++) {
             dataTrip trip = tripList.get(i);
-//            String tripInfo = "Trip ID: " + trip.getId() + "\n" +
-//                    "Name: " + trip.getName() + "\n" +
-//                    "Budget: " + trip.getBudget() + "\n" +
-//                    "Destination: " + trip.getDesti() + "\n" +
-//                    "Start Date: " + trip.getStartDate() + "\n" +
-//                    "End Date: " + trip.getEndDate() + "\n" +
-//                    "Description: " + trip.getDesc() + "\n";
-//            tripArray[i] = tripInfo;
+            LinearLayout childLinearLayout = new LinearLayout(this);
+            childLinearLayout.setOrientation(LinearLayout.VERTICAL);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            layoutParams.setMargins(0,12,0,12);
+            childLinearLayout.setLayoutParams(layoutParams);
+            childLinearLayout.setTag(trip);
 
             TextView tripNameText = new TextView(this);
             TextView infoTripText = new TextView(this);
@@ -64,7 +60,7 @@ public class listtrip extends AppCompatActivity {
             tripNameText.setText(trip.getId() + " - " + trip.getName() + "");
             tripNameText.setTextSize(22);
             tripNameText.setTextColor(getResources().getColor(android.R.color.black));
-            tripNameText.setPadding(0,30,0,6);
+            tripNameText.setPadding(0,0,0,6);
             tripNameText.setTypeface(Typeface.DEFAULT_BOLD);
 
             SpannableString contentInfo = new SpannableString("Destination: " + trip.getDesti());
@@ -77,6 +73,7 @@ public class listtrip extends AppCompatActivity {
             SpannableString contentStartDateText = new SpannableString("Start Date: " + trip.getStartDate());
             ForegroundColorSpan colorContentStartDateText = new ForegroundColorSpan(Color.BLACK);
             contentStartDateText.setSpan(colorContentStartDateText, 0, 11, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            startDateText.setPadding(0,6,0,6);
             startDateText.setText(contentStartDateText);
             startDateText.setTextSize(18);
 
@@ -84,22 +81,33 @@ public class listtrip extends AppCompatActivity {
             ForegroundColorSpan colorContentEndDateText = new ForegroundColorSpan(Color.BLACK);
             contentEndDateText.setSpan(colorContentEndDateText, 0, 9, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             endDateText.setText(contentEndDateText);
+            endDateText.setPadding(0,0,0,6);
             endDateText.setTextSize(18);
-            endDateText.setBackground(getResources().getDrawable(R.drawable.inputbottom));
 
             childLinearLayout.addView(tripNameText);
             childLinearLayout.addView(infoTripText);
             childLinearLayout.addView(startDateText);
             childLinearLayout.addView(endDateText);
+            childLinearLayout.setBackground(getResources().getDrawable(R.drawable.item_style_background));
+
+            childLinearLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(listtrip.this, detailtrip.class);
+                    startActivity(intent);
+                }
+            });
+
+            parentLayout.addView(childLinearLayout);
         }
-        if (childLinearLayout.getChildCount() == 0) {
+        if (parentLayout.getChildCount() == 0) {
             TextView emptyTextView = new TextView(this);
             emptyTextView.setText("You have no trips listed");
             emptyTextView.setTextSize(18);
             emptyTextView.setTextColor(getResources().getColor(android.R.color.black));
-            childLinearLayout.addView(emptyTextView);
+            parentLayout.addView(emptyTextView);
         }
-        parentLayout.addView(childLinearLayout);
+
         nav_listtrip.setBackgroundColor(getResources().getColor(R.color.nav_color));
         titleMenu.setText("List Trip");
         menu.setOnClickListener(new View.OnClickListener() {
