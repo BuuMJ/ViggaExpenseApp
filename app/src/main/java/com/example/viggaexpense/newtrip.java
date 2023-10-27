@@ -29,7 +29,7 @@ public class newtrip extends AppCompatActivity {
     SimpleDateFormat dateFormatter;
     Button btnCreateTrip;
     CheckBox checkReuire;
-    EditText edtTripName, edtBudget, edtDesti, edtDesc;
+    EditText edtTripName, edtLevel, edtDesti, edtDesc, edtLength, edtParking, edtBudget;
     DrawerLayout drawerLayout;
     ImageView menu, closeMenuIcon;
     LinearLayout nav_home, nav_newtrip, nav_listtrip, nav_about, nav_logout;
@@ -147,11 +147,20 @@ public class newtrip extends AppCompatActivity {
         if(edtTripName.getText().toString().equals("")){
             edtTripName.setError("Please fill in your trip name");
         }
-        else if(edtBudget.getText().toString().equals("")){
-            edtBudget.setError("Please fill in your budget");
-        }
         else if(edtDesti.getText().toString().equals("")){
             edtDesti.setError("Please fill in your Destination");
+        }
+        else if(edtLength.getText().toString().equals("")){
+            edtLength.setError("Please fill in your Length the hike");
+        }
+        else if(edtBudget.getText().toString().equals("")){
+            edtBudget.setError("Please fill in your Budget");
+        }
+        else if(edtLevel.getText().toString().equals("")){
+            edtLevel.setError("Please fill in your Level");
+        }
+        else if(edtParking.getText().toString().equals("")){
+            edtParking.setError("Please fill in your Parking available");
         }
         else if(edtDesc.getText().toString().equals("")){
             edtDesc.setError("Please fill in your Description");
@@ -170,19 +179,22 @@ public class newtrip extends AppCompatActivity {
     private void  createNewTrip(){
         DatabaseHelpers dbHelper = new DatabaseHelpers(getApplicationContext());
         String name = edtTripName.getText().toString();
-        String budget = edtBudget.getText().toString();
+        String level = edtLevel.getText().toString();
         String desti = edtDesti.getText().toString();
         String start_date = datePickerStartDate.getText().toString();
         String end_date = datePickerEndDate.getText().toString();
         String desc = edtDesc.getText().toString();
-        long tripID = dbHelper.inserDetails(name, budget, desti, start_date, end_date, desc);
+        String length = edtLength.getText().toString();
+        String parking = edtParking.getText().toString();
+        String budget = edtBudget.getText().toString();
+        long tripID = dbHelper.inserDetails(name, level, desti, start_date, end_date, desc, length, parking, budget);
     }
     protected void mapping(){
         datePickerEndDate = (TextView)findViewById(R.id.datepickerend);
         datePickerStartDate = (TextView)findViewById(R.id.datepickerstart);
         btnCreateTrip = (Button)findViewById(R.id.btnCrateTrip);
         checkReuire = (CheckBox)findViewById(R.id.checkReuire);
-        edtBudget = (EditText)findViewById(R.id.edtBudget);
+        edtLevel = (EditText)findViewById(R.id.edtLevel);
         edtDesti = (EditText)findViewById(R.id.edtDesti);
         edtDesc = (EditText)findViewById(R.id.edtDesc);
         edtTripName = (EditText)findViewById(R.id.edtTripName);
@@ -195,6 +207,9 @@ public class newtrip extends AppCompatActivity {
         nav_logout = (LinearLayout)findViewById(R.id.logout);
         titleMenu = (TextView)findViewById(R.id.titleMenu);
         closeMenuIcon = (ImageView)findViewById(R.id.closeMenuIcon);
+        edtLength = (EditText)findViewById(R.id.edtLength);
+        edtParking = (EditText)findViewById(R.id.edtParking);
+        edtBudget = (EditText)findViewById(R.id.edtBudget);
     }
     public static void openDrawer(DrawerLayout drawerLayout){
         drawerLayout.openDrawer(GravityCompat.START);

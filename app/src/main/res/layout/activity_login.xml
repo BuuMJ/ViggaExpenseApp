@@ -142,7 +142,7 @@
             android:layout_weight="1"
             android:paddingLeft="10dp"
             android:text="Sign Up "
-            android:textColor="@color/mainColor"
+            android:textColor="@color/btnColor"
             android:textSize="14dp"
             android:textStyle="bold" />
     </LinearLayout>

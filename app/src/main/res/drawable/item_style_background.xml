@@ -6,8 +6,7 @@
             android:left="20dp"
             android:top="20dp"
             android:right="20dp"/>
-    <stroke android:width="3dp"
-            android:color="@color/mainColor"/>
     <solid android:color="@color/white"/>
     <corners android:radius="10dp"/>
+    <stroke android:width="2dp" android:color="@color/shadow"/>
 </shape>

@@ -6,11 +6,14 @@
     android:layout_height="match_parent"
     android:id="@+id/drawerLayout"
     tools:context=".home">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/background"
         android:orientation="vertical">
-        <include layout="@layout/toolbar"/>
+
+        <include layout="@layout/toolbar" />
 
         <ImageView
             android:id="@+id/imageView4"
@@ -93,6 +96,7 @@
                         android:paddingTop="30dp"
                         android:text="New Trip"
                         android:textSize="20dp"
+                        android:textStyle="bold"
                         app:backgroundTint="@null"
                         app:layout_constraintStart_toStartOf="@+id/textView8"
                         app:layout_constraintTop_toTopOf="@+id/textView8" />
@@ -108,6 +112,7 @@
                         android:paddingTop="30dp"
                         android:text="trip list"
                         android:textSize="20dp"
+                        android:textStyle="bold"
                         app:backgroundTint="@null"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/textView8" />
@@ -131,6 +136,7 @@
                         android:paddingTop="30dp"
                         android:text="Reset"
                         android:textSize="20dp"
+                        android:textStyle="bold"
                         app:backgroundTint="@null"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/goAddTrip" />
@@ -146,6 +152,7 @@
                         android:paddingTop="30dp"
                         android:text="Backup"
                         android:textSize="20dp"
+                        android:textStyle="bold"
                         app:backgroundTint="@null"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/goTripList" />

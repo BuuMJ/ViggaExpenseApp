@@ -1,6 +1,7 @@
 package com.example.viggaexpense;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -57,16 +58,15 @@ public class listtrip extends AppCompatActivity {
             TextView startDateText = new TextView(this);
             TextView endDateText = new TextView(this);
 
-            tripNameText.setText(trip.getId() + " - " + trip.getName() + "");
+            tripNameText.setText(trip.getId() + " - " + trip.getName());
             tripNameText.setTextSize(22);
-            tripNameText.setTextColor(getResources().getColor(android.R.color.black));
+            tripNameText.setTextColor(ContextCompat.getColor(this, R.color.mainColor));
             tripNameText.setPadding(0,0,0,6);
             tripNameText.setTypeface(Typeface.DEFAULT_BOLD);
 
-            SpannableString contentInfo = new SpannableString("Destination: " + trip.getDesti());
-            ForegroundColorSpan colorContentInfo = new ForegroundColorSpan(Color.BLACK);
-            contentInfo.setSpan(colorContentInfo, 0, 12, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            infoTripText.setText(contentInfo);
+            infoTripText.setTextColor(getResources().getColor(android.R.color.black));
+            infoTripText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.location, 0, 0, 0);
+            infoTripText.setText(" Destination: " + trip.getDesti());
             infoTripText.setTextSize(18);
             infoTripText.setPadding(0,6,0,6);
 
@@ -93,8 +93,12 @@ public class listtrip extends AppCompatActivity {
             childLinearLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(listtrip.this, detailtrip.class);
-                    startActivity(intent);
+                    dataTrip tripInfo = (dataTrip) view.getTag();
+                    if(tripInfo != null){
+                        Intent intent = new Intent(listtrip.this, detailtrip.class);
+                        intent.putExtra("tripInfo", tripInfo);
+                        startActivity(intent);
+                    }
                 }
             });
 

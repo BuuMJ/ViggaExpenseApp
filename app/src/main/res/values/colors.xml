@@ -3,8 +3,11 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="mainColor">#0071bc</color>
+    <color name="btnColor">#0095ff</color>
     <color name="greyColor">#A6A6A6</color>
     <color name="nav_color">#33FFFFFF</color>
     <color name="centerBackgroundColor">#82CDFF</color>
     <color name="startColorNav">#007ED1</color>
+    <color name="background">#1B0071BC</color>
+    <color name="shadow">#5E0071BC</color>
 </resources>

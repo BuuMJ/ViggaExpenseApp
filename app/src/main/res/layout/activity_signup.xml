@@ -157,7 +157,7 @@
             android:gravity="center_vertical"
             android:paddingLeft="10dp"
             android:text="Log In"
-            android:textColor="@color/mainColor"
+            android:textColor="@color/btnColor"
             android:textSize="14dp"
             android:textStyle="bold" />
 
