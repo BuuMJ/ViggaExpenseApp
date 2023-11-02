@@ -18,7 +18,7 @@ import android.widget.Toast;
 public class about extends AppCompatActivity {
     DrawerLayout drawerLayout;
     ImageView menu, closeMenuIcon;
-    LinearLayout nav_home, nav_newtrip, nav_listtrip, nav_about, nav_logout;
+    LinearLayout nav_home, nav_newtrip, nav_listtrip, nav_about;
     TextView titleMenu;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,18 +63,6 @@ public class about extends AppCompatActivity {
                 recreate();
             }
         });
-        nav_logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SharedPreferences preferences = getSharedPreferences("my_prefs", MODE_PRIVATE);
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.putBoolean("isLoggedIn", false);
-                editor.commit();
-                redirectActivity(about.this, MainActivity.class);
-                Toast.makeText(about.this, "Signed out successfully", Toast.LENGTH_SHORT).show();
-
-            }
-        });
     }
     private void mapping() {
         drawerLayout = (DrawerLayout)findViewById(R.id.drawerLayout);
@@ -83,7 +71,6 @@ public class about extends AppCompatActivity {
         nav_newtrip = (LinearLayout)findViewById(R.id.newtrip);
         nav_listtrip = (LinearLayout)findViewById(R.id.listtrip);
         nav_about = (LinearLayout)findViewById(R.id.about);
-        nav_logout = (LinearLayout)findViewById(R.id.logout);
         titleMenu = (TextView)findViewById(R.id.titleMenu);
         closeMenuIcon = (ImageView)findViewById(R.id.closeMenuIcon);
     }

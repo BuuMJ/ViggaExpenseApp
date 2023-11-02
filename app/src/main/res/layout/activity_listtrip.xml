@@ -27,9 +27,7 @@ tools:context=".listtrip">
                 android:layout_marginEnd="16dp"
                 android:orientation="vertical"
                 android:paddingTop="12dp"
-                android:paddingBottom="12dp">
-
-            </LinearLayout>
+                android:paddingBottom="12dp"/>
         </ScrollView>
 
     </LinearLayout>

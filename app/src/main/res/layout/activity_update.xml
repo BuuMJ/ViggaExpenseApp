@@ -1,0 +1,377 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".update"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="10dp"
+    android:paddingTop="16dp"
+    android:paddingRight="10dp"
+    android:paddingBottom="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/inputstyle"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="6dp"
+        app:backgroundTint="@null">
+
+        <TextView
+            android:id="@+id/textView17"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Hike Of Name"
+            android:textColor="@color/black"
+            android:textSize="18dp" />
+
+        <EditText
+            android:id="@+id/edtTripNameEdit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/inputbottom"
+            android:ems="10"
+            android:hint="Enter hike name..."
+            android:inputType="text"
+            android:textColor="@color/black"
+            android:textSize="18dp"
+            app:backgroundTint="@null" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/inputstyle"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="6dp"
+        app:backgroundTint="@null">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Destination"
+            android:textColor="@color/black"
+            android:textSize="18dp" />
+
+        <EditText
+            android:id="@+id/edtDestiEdit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/inputbottom"
+            android:ems="10"
+            android:hint="Enter destination..."
+            android:inputType="text"
+            android:textColor="@color/black"
+            android:textSize="18dp"
+            app:backgroundTint="@null" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="4dp"
+            android:layout_weight="1"
+            android:background="@drawable/inputstyle"
+            android:orientation="vertical"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="6dp"
+            app:backgroundTint="@null">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Length The Hike"
+                android:textColor="@color/black"
+                android:textSize="18dp" />
+
+            <EditText
+                android:id="@+id/edtLengthEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/inputbottom"
+                android:ems="10"
+                android:hint="Defined by meters"
+                android:inputType="number"
+                android:textColor="@color/black"
+                android:textSize="18dp"
+                app:backgroundTint="@null" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/inputstyle"
+            android:orientation="vertical"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="6dp"
+            app:backgroundTint="@null">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Budget"
+                android:textColor="@color/black"
+                android:textSize="18dp" />
+
+            <EditText
+                android:id="@+id/edtBudgetEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/inputbottom"
+                android:ems="10"
+                android:hint="Defined by dollars"
+                android:inputType="number"
+                android:textColor="@color/black"
+                android:textSize="18dp"
+                app:backgroundTint="@null" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="4dp"
+            android:layout_weight="1"
+            android:background="@drawable/inputstyle"
+            android:orientation="vertical"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="6dp"
+            app:backgroundTint="@null">
+
+            <TextView
+                android:id="@+id/textView18"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Level Of Difficulty"
+                android:textColor="@color/black"
+                android:textSize="18dp" />
+
+            <Spinner
+                android:id="@+id/edtLevelEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/inputbottom"
+                android:ems="10"
+                android:hint="Enter hike level"
+                android:inputType="text"
+                android:textColor="@color/black"
+                android:textSize="18dp"
+                app:backgroundTint="@null" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/inputstyle"
+            android:orientation="vertical"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="6dp"
+            app:backgroundTint="@null">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Parking Available"
+                android:textColor="@color/black"
+                android:textSize="18dp" />
+
+            <Spinner
+                android:id="@+id/edtParkingEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/inputbottom"
+                android:ems="10"
+                android:hint="Yes or No"
+                android:inputType="text"
+                android:textColor="@color/black"
+                android:textSize="18dp"
+                app:backgroundTint="@null" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="4dp"
+            android:layout_weight="1"
+            android:background="@drawable/inputstyle"
+            android:orientation="vertical"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="6dp"
+            app:backgroundTint="@null">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Start Date"
+                android:textColor="@color/black"
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/datepickerstartEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/inputbottom"
+                android:text="TextView"
+                android:textColor="@color/black"
+                android:textSize="18dp"
+                app:backgroundTint="@null" />
+
+            <!--        <EditText-->
+            <!--            android:id="@+id/editTextDate"-->
+            <!--            android:layout_width="match_parent"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:ems="10"-->
+            <!--            android:hint="Today"-->
+            <!--            android:inputType="date"-->
+            <!--            android:textColor="@color/black"-->
+            <!--            android:textColorHint="@color/black"-->
+            <!--            android:textSize="18dp"-->
+            <!--            app:backgroundTint="@null"-->
+            <!--            android:background="@drawable/inputbottom"/>-->
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/inputstyle"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="6dp"
+            app:backgroundTint="@null">
+
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="End Date"
+                android:textColor="@color/black"
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/datepickerendEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/inputbottom"
+                android:text="TextView"
+                android:textColor="@color/black"
+                android:textSize="18dp"
+                app:backgroundTint="@null" />
+
+            <!--        <EditText-->
+            <!--            android:id="@+id/editTextDate2"-->
+            <!--            android:layout_width="match_parent"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:ems="10"-->
+            <!--            android:inputType="date"-->
+            <!--            app:backgroundTint="@null"-->
+            <!--            android:background="@drawable/inputbottom"/>-->
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/inputstyle"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="6dp"
+        app:backgroundTint="@null">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Description"
+            android:textColor="@color/black"
+            android:textSize="18dp" />
+
+        <EditText
+            android:id="@+id/edtDescEdit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/inputbottom"
+            android:ems="10"
+            android:hint="Enter Description..."
+            android:inputType="text"
+            android:textColor="@color/black"
+            android:textSize="18dp"
+            app:backgroundTint="@null" />
+    </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/checkUpdate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Agree with changes"
+        android:textSize="18dp" />
+
+    <Button
+        android:id="@+id/btnUpdate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/btnnewtrip"
+        android:text="Update"
+        android:textColor="@color/white"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        app:backgroundTint="@null" />
+
+</LinearLayout>

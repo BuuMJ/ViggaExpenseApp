@@ -11,7 +11,6 @@ public class dataTrip implements Serializable {
     private String parking;
     private String length;
     private String budget;
-
     public dataTrip(int id, String name, String level, String desti, String startDate, String endDate, String desc, String parking, String length, String budget) {
         this.id = id;
         this.name = name;

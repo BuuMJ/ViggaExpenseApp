@@ -3,4 +3,17 @@
     <string name="main_name">Vigga-Hike</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="parking_options">
+        <item>Select Parking</item>
+        <item>Yes</item>
+        <item>No</item>
+    </string-array>
+    <string-array name="level_options">
+        <item value="">Select Level</item>
+        <item value="0">Very Easy</item>
+        <item value="1">Easy</item>
+        <item value="2">Moderate</item>
+        <item value="3">Difficulty</item>
+        <item value="4">Very Difficult</item>
+    </string-array>
 </resources>

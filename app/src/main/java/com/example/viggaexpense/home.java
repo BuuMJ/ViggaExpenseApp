@@ -19,30 +19,16 @@ import android.widget.Toast;
 
 public class home extends AppCompatActivity {
     TextView fullnameuser;
-//    Toolbar toolbar;
-//    DrawerLayout drawerLayout;
-//    NavigationView navigationView;
-//    ListView listView;
     EditText test;
     DrawerLayout drawerLayout;
     ImageView menu, closeMenuIcon;
-    LinearLayout nav_home, nav_newtrip, nav_listtrip, nav_about, nav_logout;
+    LinearLayout nav_home, nav_newtrip, nav_listtrip, nav_about;
     Button goAddTrip, goListTrip;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         mapping();
-        SharedPreferences sharedPreferences = getSharedPreferences("account_info", MODE_PRIVATE);
-        String fullnamehome = sharedPreferences.getString("KEY_FULLNAME", "");
-        Log.d("MyApp", "fullnamehome: " + fullnamehome);
-        fullnameuser.setText(fullnamehome);
-//        toolbar = (Toolbar)findViewById(R.id.toolbar);
-//        drawerLayout = (DrawerLayout)findViewById(R.id.drawerLayout);
-//        navigationView = (NavigationView)findViewById(R.id.navigationView);
-//        listView = (ListView)findViewById(R.id.lv);
-//        actionToolbar();
-//        toolbar.setTitle("");
         goAddTrip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -94,22 +80,10 @@ public class home extends AppCompatActivity {
                 redirectActivity(home.this, about.class);
             }
         });
-        nav_logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SharedPreferences preferences = getSharedPreferences("my_prefs", MODE_PRIVATE);
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.putBoolean("isLoggedIn", false);
-                editor.commit();
-                redirectActivity(home.this, MainActivity.class);
-                Toast.makeText(home.this, "Signed out successfully", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
 
     private void mapping() {
-        fullnameuser = (TextView)findViewById(R.id.helloname);
         goAddTrip = (Button)findViewById(R.id.goAddTrip);
         goListTrip = (Button)findViewById(R.id.goTripList);
         drawerLayout = (DrawerLayout)findViewById(R.id.drawerLayout);
@@ -118,7 +92,6 @@ public class home extends AppCompatActivity {
         nav_newtrip = (LinearLayout)findViewById(R.id.newtrip);
         nav_listtrip = (LinearLayout)findViewById(R.id.listtrip);
         nav_about = (LinearLayout)findViewById(R.id.about);
-        nav_logout = (LinearLayout)findViewById(R.id.logout);
         closeMenuIcon = (ImageView)findViewById(R.id.closeMenuIcon);
     }
 

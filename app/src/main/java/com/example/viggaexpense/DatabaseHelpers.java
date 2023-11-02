@@ -112,5 +112,25 @@ public class DatabaseHelpers extends SQLiteOpenHelper {
         }
         return tripList;
     }
+    public void updateTrip(String tripId,String name, String level, String desti, String start_date, String end_date, String desc, String parking, String length, String budget){
+        SQLiteDatabase database = getWritableDatabase();
+        ContentValues rowValues = new ContentValues();
+        rowValues.put(TRIPNAME_COLUMN_NAME , name);
+        rowValues.put(TRIPLEVEL_COLUMN_NAME , level);
+        rowValues.put(TRIPDESTI_COLUMN_NAME , desti);
+        rowValues.put(STARTDATE_COLUMN_NAME , start_date);
+        rowValues.put(ENDDATE_COLUMN_NAME , end_date);
+        rowValues.put(TRIPDESC_COLUMN_NAME , desc);
+        rowValues.put(PARKING_COLUMN_NAME, parking);
+        rowValues.put(TRIPLENGTH_COLUMN_NAME, length);
+        rowValues.put(TRIPBUDGET_COLUMN_NAME, budget);
+        long result = database.update(DATABASE_NAME, rowValues, "trip_id=?", new String[]{tripId});
+    }
+    public void deleteTrip(int tripId) {
+        SQLiteDatabase database = getWritableDatabase();
+        String whereClause = "trip_id=?";
+        String[] whereArgs = {String.valueOf(tripId)};
+        database.delete("list_trip", whereClause, whereArgs);
+    }
 
 }

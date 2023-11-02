@@ -18,6 +18,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Toolbar;
 
 import java.text.SimpleDateFormat;
@@ -29,16 +31,23 @@ public class newtrip extends AppCompatActivity {
     SimpleDateFormat dateFormatter;
     Button btnCreateTrip;
     CheckBox checkReuire;
-    EditText edtTripName, edtLevel, edtDesti, edtDesc, edtLength, edtParking, edtBudget;
+    EditText edtTripName, edtDesti, edtDesc, edtLength, edtBudget;
+    Spinner edtParking, edtLevel;
     DrawerLayout drawerLayout;
     ImageView menu, closeMenuIcon;
-    LinearLayout nav_home, nav_newtrip, nav_listtrip, nav_about, nav_logout;
+    LinearLayout nav_home, nav_newtrip, nav_listtrip, nav_about;
     TextView titleMenu;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_newtrip);
         mapping();
+        ArrayAdapter<CharSequence> parkingAdapter = ArrayAdapter.createFromResource(this, R.array.parking_options, android.R.layout.simple_spinner_item);
+        parkingAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<CharSequence> levelAdapter = ArrayAdapter.createFromResource(this, R.array.level_options, android.R.layout.simple_spinner_item);
+        levelAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        edtParking.setAdapter(parkingAdapter);
+        edtLevel.setAdapter(levelAdapter);
         Calendar c = Calendar.getInstance();
         int y = c.get(Calendar.YEAR);
         int m = c.get(Calendar.MONTH);
@@ -130,18 +139,6 @@ public class newtrip extends AppCompatActivity {
                 redirectActivity(newtrip.this, about.class);
             }
         });
-        nav_logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SharedPreferences preferences = getSharedPreferences("my_prefs", MODE_PRIVATE);
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.putBoolean("isLoggedIn", false);
-                editor.commit();
-                redirectActivity(newtrip.this, MainActivity.class);
-                Toast.makeText(newtrip.this, "Signed out successfully", Toast.LENGTH_SHORT).show();
-
-            }
-        });
     }
     protected void checkRequired(){
         if(edtTripName.getText().toString().equals("")){
@@ -156,11 +153,11 @@ public class newtrip extends AppCompatActivity {
         else if(edtBudget.getText().toString().equals("")){
             edtBudget.setError("Please fill in your Budget");
         }
-        else if(edtLevel.getText().toString().equals("")){
-            edtLevel.setError("Please fill in your Level");
+        else if(edtLevel.getSelectedItem().toString().equals("Select Level")){
+            ((TextView)edtLevel.getSelectedView()).setError("Please select the Level option");
         }
-        else if(edtParking.getText().toString().equals("")){
-            edtParking.setError("Please fill in your Parking available");
+        else if(edtParking.getSelectedItem().toString().equals("Select Parking option")){
+            ((TextView)edtParking.getSelectedView()).setError("Please select the parking option");
         }
         else if(edtDesc.getText().toString().equals("")){
             edtDesc.setError("Please fill in your Description");
@@ -179,22 +176,22 @@ public class newtrip extends AppCompatActivity {
     private void  createNewTrip(){
         DatabaseHelpers dbHelper = new DatabaseHelpers(getApplicationContext());
         String name = edtTripName.getText().toString();
-        String level = edtLevel.getText().toString();
+        String level = edtLevel.getSelectedItem().toString();
         String desti = edtDesti.getText().toString();
         String start_date = datePickerStartDate.getText().toString();
         String end_date = datePickerEndDate.getText().toString();
         String desc = edtDesc.getText().toString();
+        String parking = edtParking.getSelectedItem().toString();
         String length = edtLength.getText().toString();
-        String parking = edtParking.getText().toString();
         String budget = edtBudget.getText().toString();
-        long tripID = dbHelper.inserDetails(name, level, desti, start_date, end_date, desc, length, parking, budget);
+        long tripID = dbHelper.inserDetails(name, level, desti, start_date, end_date, desc, parking, length, budget);
     }
     protected void mapping(){
         datePickerEndDate = (TextView)findViewById(R.id.datepickerend);
         datePickerStartDate = (TextView)findViewById(R.id.datepickerstart);
         btnCreateTrip = (Button)findViewById(R.id.btnCrateTrip);
         checkReuire = (CheckBox)findViewById(R.id.checkReuire);
-        edtLevel = (EditText)findViewById(R.id.edtLevel);
+        edtLevel = (Spinner)findViewById(R.id.edtLevel);
         edtDesti = (EditText)findViewById(R.id.edtDesti);
         edtDesc = (EditText)findViewById(R.id.edtDesc);
         edtTripName = (EditText)findViewById(R.id.edtTripName);
@@ -204,11 +201,10 @@ public class newtrip extends AppCompatActivity {
         nav_newtrip = (LinearLayout)findViewById(R.id.newtrip);
         nav_listtrip = (LinearLayout)findViewById(R.id.listtrip);
         nav_about = (LinearLayout)findViewById(R.id.about);
-        nav_logout = (LinearLayout)findViewById(R.id.logout);
         titleMenu = (TextView)findViewById(R.id.titleMenu);
         closeMenuIcon = (ImageView)findViewById(R.id.closeMenuIcon);
         edtLength = (EditText)findViewById(R.id.edtLength);
-        edtParking = (EditText)findViewById(R.id.edtParking);
+        edtParking = (Spinner)findViewById(R.id.edtParking);
         edtBudget = (EditText)findViewById(R.id.edtBudget);
     }
     public static void openDrawer(DrawerLayout drawerLayout){

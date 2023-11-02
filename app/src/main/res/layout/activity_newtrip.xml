@@ -121,8 +121,8 @@ tools:context=".listtrip">
                         android:layout_height="wrap_content"
                         android:background="@drawable/inputbottom"
                         android:ems="10"
-                        android:hint="Enter hike length..."
-                        android:inputType="text"
+                        android:hint="Defined by meters"
+                        android:inputType="number"
                         android:textColor="@color/black"
                         android:textSize="18dp"
                         app:backgroundTint="@null" />
@@ -155,7 +155,7 @@ tools:context=".listtrip">
                         android:layout_height="wrap_content"
                         android:background="@drawable/inputbottom"
                         android:ems="10"
-                        android:hint="Enter Hike Budget... "
+                        android:hint="Defined by dollars"
                         android:inputType="number"
                         android:textColor="@color/black"
                         android:textSize="18dp"
@@ -169,7 +169,7 @@ tools:context=".listtrip">
                 android:orientation="horizontal">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:layout_marginRight="4dp"
@@ -190,7 +190,7 @@ tools:context=".listtrip">
                         android:textColor="@color/black"
                         android:textSize="18dp" />
 
-                    <EditText
+                    <Spinner
                         android:id="@+id/edtLevel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -204,7 +204,7 @@ tools:context=".listtrip">
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
                     android:layout_marginTop="8dp"
@@ -224,7 +224,7 @@ tools:context=".listtrip">
                         android:textColor="@color/black"
                         android:textSize="18dp" />
 
-                    <EditText
+                    <Spinner
                         android:id="@+id/edtParking"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -382,7 +382,7 @@ tools:context=".listtrip">
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/btnnewtrip"
-                android:text="Create Trip"
+                android:text="Create Hike"
                 android:textColor="@color/white"
                 android:textSize="18dp"
                 android:textStyle="bold"

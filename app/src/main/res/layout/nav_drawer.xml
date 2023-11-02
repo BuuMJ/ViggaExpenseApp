@@ -135,26 +135,4 @@
         android:layout_marginTop="16dp"
         android:background="@color/black"/>
 
-    <LinearLayout
-        android:id="@+id/logout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="16dp"
-        android:orientation="horizontal"
-        android:paddingStart="6dp"
-        android:paddingTop="6dp"
-        android:paddingBottom="6dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/baseline_logout_24"
-            android:drawablePadding="8dp"
-            android:text="Log Out"
-            android:textColor="@color/black"
-            android:textSize="20dp"
-            android:textStyle="bold" />
-    </LinearLayout>
 </LinearLayout>

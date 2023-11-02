@@ -6,6 +6,8 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -18,6 +20,7 @@ import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -31,7 +34,7 @@ import java.util.List;
 public class listtrip extends AppCompatActivity {
     DrawerLayout drawerLayout;
     ImageView menu, closeMenuIcon;
-    LinearLayout nav_home, nav_newtrip, nav_listtrip, nav_about, nav_logout, parentLayout;
+    LinearLayout nav_home, nav_newtrip, nav_listtrip, nav_about, parentLayout;
     TextView titleMenu;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,12 +56,45 @@ public class listtrip extends AppCompatActivity {
             childLinearLayout.setLayoutParams(layoutParams);
             childLinearLayout.setTag(trip);
 
+            LinearLayout actionLinearLayout = new LinearLayout(this);
+            actionLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
+            LinearLayout.LayoutParams actionLayoutParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            actionLayoutParams.setMargins(0,12,0,0);
+            actionLinearLayout.setLayoutParams(actionLayoutParams);
+
             TextView tripNameText = new TextView(this);
             TextView infoTripText = new TextView(this);
+            TextView parkingText = new TextView(this);
             TextView startDateText = new TextView(this);
             TextView endDateText = new TextView(this);
 
-            tripNameText.setText(trip.getId() + " - " + trip.getName());
+            Button editHike = new Button(this);
+            Button deleteHike = new Button(this);
+
+            LinearLayout.LayoutParams editParams = new LinearLayout.LayoutParams(
+                    0,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            editParams.setMargins(0,0,4,0);
+            editParams.weight = 1;
+
+            LinearLayout.LayoutParams deleteParams = new LinearLayout.LayoutParams(
+                    0,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            deleteParams.setMargins(4,0,0,0);
+            deleteParams.weight = 1;
+
+            editHike.setLayoutParams(editParams);
+            deleteHike.setLayoutParams(deleteParams);
+
+            actionLinearLayout.addView(editHike);
+            actionLinearLayout.addView(deleteHike);
+
+            tripNameText.setText((i + 1) + " - " + trip.getName());
             tripNameText.setTextSize(22);
             tripNameText.setTextColor(ContextCompat.getColor(this, R.color.mainColor));
             tripNameText.setPadding(0,0,0,6);
@@ -69,6 +105,12 @@ public class listtrip extends AppCompatActivity {
             infoTripText.setText(" Destination: " + trip.getDesti());
             infoTripText.setTextSize(18);
             infoTripText.setPadding(0,6,0,6);
+
+            parkingText.setTextColor(getResources().getColor(android.R.color.black));
+            parkingText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.parking, 0, 0, 0);
+            parkingText.setText(" Parking: " + trip.getParking());
+            parkingText.setTextSize(18);
+            parkingText.setPadding(0,6,0,6);
 
             SpannableString contentStartDateText = new SpannableString("Start Date: " + trip.getStartDate());
             ForegroundColorSpan colorContentStartDateText = new ForegroundColorSpan(Color.BLACK);
@@ -84,10 +126,21 @@ public class listtrip extends AppCompatActivity {
             endDateText.setPadding(0,0,0,6);
             endDateText.setTextSize(18);
 
+            editHike.setText("Edit Hike");
+            editHike.setTextSize(18);
+            editHike.setBackground(getResources().getDrawable(R.drawable.edit_button));
+            editHike.setTextColor(getResources().getColor(R.color.white));
+            deleteHike.setText("Delete Hike");
+            deleteHike.setBackground(getResources().getDrawable(R.drawable.delete_button));
+            deleteHike.setTextColor(getResources().getColor(R.color.white));
+            deleteHike.setTextSize(18);
+
             childLinearLayout.addView(tripNameText);
             childLinearLayout.addView(infoTripText);
+            childLinearLayout.addView(parkingText);
             childLinearLayout.addView(startDateText);
             childLinearLayout.addView(endDateText);
+            childLinearLayout.addView(actionLinearLayout);
             childLinearLayout.setBackground(getResources().getDrawable(R.drawable.item_style_background));
 
             childLinearLayout.setOnClickListener(new View.OnClickListener() {
@@ -98,6 +151,45 @@ public class listtrip extends AppCompatActivity {
                         Intent intent = new Intent(listtrip.this, detailtrip.class);
                         intent.putExtra("tripInfo", tripInfo);
                         startActivity(intent);
+                    }
+                }
+            });
+            editHike.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dataTrip tripInfo = (dataTrip) childLinearLayout.getTag();
+                    if (tripInfo != null) {
+                        Intent intent = new Intent(listtrip.this, update.class);
+                        intent.putExtra("tripInfo", tripInfo);
+                        startActivity(intent);
+                    }
+                }
+            });
+            deleteHike.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dataTrip tripInfo = (dataTrip) childLinearLayout.getTag();
+                    if (tripInfo != null) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(listtrip.this);
+                        builder.setTitle("Confirm Delete")
+                                .setMessage("Are you sure you want to delete this hike?")
+                                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        DatabaseHelpers dbHelpers = new DatabaseHelpers(getApplicationContext());
+                                        dbHelpers.deleteTrip(tripInfo.getId());
+                                        parentLayout.removeView(childLinearLayout);
+                                        Toast.makeText(listtrip.this, "Deleted Successfully", Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                    }
+                                });
+                        AlertDialog alertDialog = builder.create();
+                        alertDialog.show();
                     }
                 }
             });
@@ -150,18 +242,6 @@ public class listtrip extends AppCompatActivity {
                 redirectActivity(listtrip.this, about.class);
             }
         });
-        nav_logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SharedPreferences preferences = getSharedPreferences("my_prefs", MODE_PRIVATE);
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.putBoolean("isLoggedIn", false);
-                editor.commit();
-                redirectActivity(listtrip.this, MainActivity.class);
-                Toast.makeText(listtrip.this, "Signed out successfully", Toast.LENGTH_SHORT).show();
-
-            }
-        });
     }
     protected void mappingListTrip(){
         parentLayout = (LinearLayout)findViewById(R.id.parentLayout);
@@ -171,7 +251,6 @@ public class listtrip extends AppCompatActivity {
         nav_newtrip = (LinearLayout)findViewById(R.id.newtrip);
         nav_listtrip = (LinearLayout)findViewById(R.id.listtrip);
         nav_about = (LinearLayout)findViewById(R.id.about);
-        nav_logout = (LinearLayout)findViewById(R.id.logout);
         titleMenu = (TextView)findViewById(R.id.titleMenu);
         closeMenuIcon = (ImageView)findViewById(R.id.closeMenuIcon);
     }
