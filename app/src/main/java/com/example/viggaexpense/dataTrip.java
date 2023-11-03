@@ -1,5 +1,8 @@
 package com.example.viggaexpense;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 public class dataTrip implements Serializable {
     private int id;
     private String name;
@@ -11,6 +14,7 @@ public class dataTrip implements Serializable {
     private String parking;
     private String length;
     private String budget;
+    private List<Observation> observations;
     public dataTrip(int id, String name, String level, String desti, String startDate, String endDate, String desc, String parking, String length, String budget) {
         this.id = id;
         this.name = name;
@@ -22,6 +26,10 @@ public class dataTrip implements Serializable {
         this.parking = parking;
         this.length = length;
         this.budget = budget;
+        this.observations = new ArrayList<>();
+    }
+    public void addObservation(Observation observation) {
+        observations.add(observation);
     }
 
     public int getId() {
@@ -102,4 +110,12 @@ public class dataTrip implements Serializable {
     public void setBudget(String budget) {
         this.budget = budget;
     }
+    public List<Observation> getObservations() {
+        return observations;
+    }
+
+    public void setObservations(List<Observation> observations) {
+        this.observations = observations;
+    }
 }
+

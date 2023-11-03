@@ -5,6 +5,8 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -23,7 +25,7 @@ public class home extends AppCompatActivity {
     DrawerLayout drawerLayout;
     ImageView menu, closeMenuIcon;
     LinearLayout nav_home, nav_newtrip, nav_listtrip, nav_about;
-    Button goAddTrip, goListTrip;
+    Button goAddTrip, goListTrip, btnReset;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +43,30 @@ public class home extends AppCompatActivity {
             public void onClick(View view) {
                 Intent listTripPage = new Intent(home.this, listtrip.class);
                 startActivity(listTripPage);
+            }
+        });
+        btnReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(home.this);
+                builder.setTitle("Confirm Reset")
+                        .setMessage("Are you sure you want to reset your database?")
+                        .setPositiveButton("Reset", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                DatabaseHelpers dbHelpers = new DatabaseHelpers(getApplicationContext());
+                                dbHelpers.resetDatabase();
+                                Toast.makeText(home.this, "Deleted Successfully", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
             }
         });
         nav_home.setBackgroundColor(getResources().getColor(R.color.nav_color));
@@ -93,6 +119,7 @@ public class home extends AppCompatActivity {
         nav_listtrip = (LinearLayout)findViewById(R.id.listtrip);
         nav_about = (LinearLayout)findViewById(R.id.about);
         closeMenuIcon = (ImageView)findViewById(R.id.closeMenuIcon);
+        btnReset = (Button)findViewById(R.id.btnReset);
     }
 
     public static void openDrawer(DrawerLayout drawerLayout){

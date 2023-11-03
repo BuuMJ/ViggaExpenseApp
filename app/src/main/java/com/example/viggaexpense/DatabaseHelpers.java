@@ -37,22 +37,21 @@ public class DatabaseHelpers extends SQLiteOpenHelper {
                     "%s TEXT)",
             DATABASE_NAME, ID_COLUMN_NAME, TRIPNAME_COLUMN_NAME, TRIPLEVEL_COLUMN_NAME, TRIPDESTI_COLUMN_NAME, STARTDATE_COLUMN_NAME, ENDDATE_COLUMN_NAME, TRIPDESC_COLUMN_NAME, PARKING_COLUMN_NAME, TRIPLENGTH_COLUMN_NAME, TRIPBUDGET_COLUMN_NAME
     );
-//    private static final String USER_TABLE_NAME = "user";
-//    private static final String USER_ID_COLUMN_NAME = "user_id";
-//    private static final String USER_NAME_COLUMN_NAME = "username";
-//    private static final String USER_Password_COLUMN_NAME = "password";
-//    private static final String USER_TRIP_ID_COLUMN_NAME = "trip_id";
-//
-//    private static final String USER_TABLE_CREATE_QUERY = String.format(
-//            "CREATE TABLE %s (" +
-//                    "%s INTEGER PRIMARY KEY AUTOINCREMENT, " +
-//                    "%s TEXT, " +
-//                    "%s TEXT, " +
-//                    "%s INTEGER, " +
-//                    "FOREIGN KEY(%s) REFERENCES %s(%s))",
-//            USER_TABLE_NAME, USER_ID_COLUMN_NAME, USER_NAME_COLUMN_NAME, USER_Password_COLUMN_NAME,
-//            USER_TRIP_ID_COLUMN_NAME, USER_TRIP_ID_COLUMN_NAME, "list_trip", ID_COLUMN_NAME
-//    );
+    private static final String OBSERVATIONS_TABLE_NAME = "observations";
+    private static final String OBSERVATION_ID_COLUMN_NAME = "observation_id";
+    private static final String OBSERVATION_TRIP_ID_COLUMN_NAME = "trip_id";
+    private static final String OBSERVATION_TEXT_COLUMN_NAME = "observation_text";
+
+    private static final String OBSERVATIONS_TABLE_CREATE_QUERY = String.format(
+            "CREATE TABLE %s (" +
+                    "%s INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "%s INTEGER, " +
+                    "%s TEXT, " +
+                    "FOREIGN KEY(%s) REFERENCES %s(%s))",
+            OBSERVATIONS_TABLE_NAME, OBSERVATION_ID_COLUMN_NAME, OBSERVATION_TRIP_ID_COLUMN_NAME,
+            OBSERVATION_TEXT_COLUMN_NAME, OBSERVATION_TRIP_ID_COLUMN_NAME, DATABASE_NAME,
+            ID_COLUMN_NAME
+    );
     public DatabaseHelpers(Context context){
         super(context, DATABASE_NAME, null,1);
         database = getWritableDatabase();
@@ -60,7 +59,7 @@ public class DatabaseHelpers extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(DATABASE_CREATE_QUERY);
-//        db.execSQL(USER_TABLE_CREATE_QUERY);
+        db.execSQL(OBSERVATIONS_TABLE_CREATE_QUERY);
     }
 
     @Override
@@ -82,13 +81,12 @@ public class DatabaseHelpers extends SQLiteOpenHelper {
         rowValues.put(TRIPBUDGET_COLUMN_NAME, budget);
         return database.insertOrThrow(DATABASE_NAME, null,rowValues);
     }
-//    public long insertUser(String username, String password, long tripId) {
-//        ContentValues rowValues = new ContentValues();
-//        rowValues.put(USER_NAME_COLUMN_NAME, username);
-//        rowValues.put(USER_Password_COLUMN_NAME, password);
-//        rowValues.put(USER_TRIP_ID_COLUMN_NAME, tripId);
-//        return database.insertOrThrow(USER_TABLE_NAME, null, rowValues);
-//    }
+    public long insertObservation(int tripId, String observationText) {
+        ContentValues rowValues = new ContentValues();
+        rowValues.put(OBSERVATION_TRIP_ID_COLUMN_NAME, tripId);
+        rowValues.put(OBSERVATION_TEXT_COLUMN_NAME, observationText);
+        return database.insertOrThrow(OBSERVATIONS_TABLE_NAME, null, rowValues);
+    }
     public List<dataTrip> getDetails() {
         List<dataTrip> tripList = new ArrayList<>();
         Cursor results = database.query("list_trip",
@@ -131,6 +129,11 @@ public class DatabaseHelpers extends SQLiteOpenHelper {
         String whereClause = "trip_id=?";
         String[] whereArgs = {String.valueOf(tripId)};
         database.delete("list_trip", whereClause, whereArgs);
+    }
+    public void resetDatabase() {
+        SQLiteDatabase database = getWritableDatabase();
+        database.execSQL("DROP TABLE IF EXISTS " + DATABASE_NAME);
+        onCreate(database);
     }
 
 }
