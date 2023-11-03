@@ -37,21 +37,24 @@ public class DatabaseHelpers extends SQLiteOpenHelper {
                     "%s TEXT)",
             DATABASE_NAME, ID_COLUMN_NAME, TRIPNAME_COLUMN_NAME, TRIPLEVEL_COLUMN_NAME, TRIPDESTI_COLUMN_NAME, STARTDATE_COLUMN_NAME, ENDDATE_COLUMN_NAME, TRIPDESC_COLUMN_NAME, PARKING_COLUMN_NAME, TRIPLENGTH_COLUMN_NAME, TRIPBUDGET_COLUMN_NAME
     );
-    private static final String OBSERVATIONS_TABLE_NAME = "observations";
-    private static final String OBSERVATION_ID_COLUMN_NAME = "observation_id";
-    private static final String OBSERVATION_TRIP_ID_COLUMN_NAME = "trip_id";
-    private static final String OBSERVATION_TEXT_COLUMN_NAME = "observation_text";
+    private static final String TABLE_OBSERVATIONS = "observations";
+    private static final String COLUMN_OBSERVATION_ID = "observation_id";
+    private static final String COLUMN_TRIP_ID_OBSERVATION = "trip_id";
+    private static final String COLUMN_OBSERVATION_TITLE = "observation_title";
+    private static final String COLUMN_OBSERVATION_TIME = "observation_time";
+    private static final String COLUMN_OBSERVATION_NOTES = "observation_notes";
 
-    private static final String OBSERVATIONS_TABLE_CREATE_QUERY = String.format(
+    private static final String DATABASE_CREATE_OBSERVATION_TABLE = String.format(
             "CREATE TABLE %s (" +
                     "%s INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "%s INTEGER, " +
                     "%s TEXT, " +
-                    "FOREIGN KEY(%s) REFERENCES %s(%s))",
-            OBSERVATIONS_TABLE_NAME, OBSERVATION_ID_COLUMN_NAME, OBSERVATION_TRIP_ID_COLUMN_NAME,
-            OBSERVATION_TEXT_COLUMN_NAME, OBSERVATION_TRIP_ID_COLUMN_NAME, DATABASE_NAME,
-            ID_COLUMN_NAME
+                    "%s TEXT, " +
+                    "%s TEXT)",
+            TABLE_OBSERVATIONS, COLUMN_OBSERVATION_ID, COLUMN_TRIP_ID_OBSERVATION, COLUMN_OBSERVATION_TITLE, COLUMN_OBSERVATION_TIME, COLUMN_OBSERVATION_NOTES
     );
+
+
     public DatabaseHelpers(Context context){
         super(context, DATABASE_NAME, null,1);
         database = getWritableDatabase();
@@ -59,13 +62,14 @@ public class DatabaseHelpers extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(DATABASE_CREATE_QUERY);
-        db.execSQL(OBSERVATIONS_TABLE_CREATE_QUERY);
+        db.execSQL(DATABASE_CREATE_OBSERVATION_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + DATABASE_NAME);
-        Log.w(this.getClass().getName(),DATABASE_NAME + "database upgrade to version" + newVersion + " - old data lost");
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_OBSERVATIONS);
+        Log.w(this.getClass().getName(), DATABASE_NAME + " database upgrade to version " + newVersion + " - old data lost");
         onCreate(db);
     }
     public long inserDetails(String name, String level, String desti, String start_date, String end_date, String desc, String parking, String length, String budget){
@@ -81,11 +85,13 @@ public class DatabaseHelpers extends SQLiteOpenHelper {
         rowValues.put(TRIPBUDGET_COLUMN_NAME, budget);
         return database.insertOrThrow(DATABASE_NAME, null,rowValues);
     }
-    public long insertObservation(int tripId, String observationText) {
+    public long inserObservation(int tripId, String observationTitle, String observationTime, String observationNotes) {
         ContentValues rowValues = new ContentValues();
-        rowValues.put(OBSERVATION_TRIP_ID_COLUMN_NAME, tripId);
-        rowValues.put(OBSERVATION_TEXT_COLUMN_NAME, observationText);
-        return database.insertOrThrow(OBSERVATIONS_TABLE_NAME, null, rowValues);
+        rowValues.put(COLUMN_TRIP_ID_OBSERVATION, tripId);
+        rowValues.put(COLUMN_OBSERVATION_TITLE, observationTitle);
+        rowValues.put(COLUMN_OBSERVATION_TIME, observationTime);
+        rowValues.put(COLUMN_OBSERVATION_NOTES, observationNotes);
+        return database.insertOrThrow(TABLE_OBSERVATIONS, null,rowValues);
     }
     public List<dataTrip> getDetails() {
         List<dataTrip> tripList = new ArrayList<>();
@@ -110,6 +116,47 @@ public class DatabaseHelpers extends SQLiteOpenHelper {
         }
         return tripList;
     }
+    public List<Observation> getObvervationDetails(int trip_id){
+        List<Observation> observationList = new ArrayList<>();
+        SQLiteDatabase db = getReadableDatabase();
+
+        String[] projection = {
+                COLUMN_OBSERVATION_ID,
+                COLUMN_TRIP_ID_OBSERVATION,
+                COLUMN_OBSERVATION_TITLE,
+                COLUMN_OBSERVATION_TIME,
+                COLUMN_OBSERVATION_NOTES
+        };
+
+        String selection = COLUMN_TRIP_ID_OBSERVATION + " = ?";
+        String[] selectionArgs = {String.valueOf(trip_id)};
+
+        Cursor cursor = db.query(
+                TABLE_OBSERVATIONS,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            int observationId = cursor.getInt(0);
+            int observationTripId = cursor.getInt(1);
+            String observationTitle = cursor.getString(2);
+            String observationTime = cursor.getString(3);
+            String observationNotes = cursor.getString(4);
+            Observation observation = new Observation(observationId, observationTripId, observationTitle, observationTime, observationNotes);
+            observationList.add(observation);
+
+            cursor.moveToNext();
+        }
+        cursor.close();
+
+        return observationList;
+    }
     public void updateTrip(String tripId,String name, String level, String desti, String start_date, String end_date, String desc, String parking, String length, String budget){
         SQLiteDatabase database = getWritableDatabase();
         ContentValues rowValues = new ContentValues();
@@ -133,6 +180,7 @@ public class DatabaseHelpers extends SQLiteOpenHelper {
     public void resetDatabase() {
         SQLiteDatabase database = getWritableDatabase();
         database.execSQL("DROP TABLE IF EXISTS " + DATABASE_NAME);
+        database.execSQL("DROP TABLE IF EXISTS " + TABLE_OBSERVATIONS);
         onCreate(database);
     }
 

@@ -13,17 +13,21 @@ import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 public class detailtrip extends AppCompatActivity {
     TextView hikeDesti, difficult, length, duration, hikeName;
     Button btnFinish, btnAddMore;
-    ScrollView containerDetails;
+    LinearLayout containerDetails;
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +35,7 @@ public class detailtrip extends AppCompatActivity {
         setContentView(R.layout.activity_detailtrip);
         mapping();
         dataTrip tripInfo = (dataTrip) getIntent().getSerializableExtra("tripInfo");
-        Observation newObservation = (Observation) getIntent().getSerializableExtra("newObservation");
+
         hikeDesti.setText(tripInfo.getDesti());
         hikeName.setText(tripInfo.getName());
         String difficultyText = "Difficulty: " + tripInfo.getLevel();
@@ -48,7 +52,8 @@ public class detailtrip extends AppCompatActivity {
         }
         else{
             double lengthInKm = metterToKillometter / 1000.0;
-            lengthText = "Total Distance: " + lengthInKm + " KM";
+            NumberFormat format = new DecimalFormat("0.#");
+            lengthText = "Total Distance: " + format.format(lengthInKm) + "KM";
         }
         SpannableStringBuilder lengthBuilder = new SpannableStringBuilder(lengthText);
         int startLength = 15;
@@ -102,9 +107,62 @@ public class detailtrip extends AppCompatActivity {
                 startActivity(addMore);
             }
         });
-        TextView obversationTitle = new TextView(this);
-        obversationTitle.setText(newObservation.getTimeOfObservation());
-        containerDetails.addView(obversationTitle);
+        DatabaseHelpers dbHelpers = new DatabaseHelpers(getApplicationContext());
+        List<Observation> observationList = dbHelpers.getObvervationDetails(tripInfo.getId());
+        Log.d("test", "onCreate: " + observationList);
+
+        for (Observation observation : observationList) {
+            LinearLayout childLinearLayout = new LinearLayout(this);
+            childLinearLayout.setOrientation(LinearLayout.VERTICAL);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            layoutParams.setMargins(0,12,0,0);
+            childLinearLayout.setLayoutParams(layoutParams);
+            childLinearLayout.setBackground(getDrawable(R.drawable.background_obversation));
+
+            LinearLayout timeLayout = new LinearLayout(this);
+            timeLayout.setOrientation(LinearLayout.VERTICAL);
+            LinearLayout.LayoutParams timeLayoutParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            timeLayoutParams.setMargins(0,0,0,12);
+            timeLayout.setLayoutParams(timeLayoutParams);
+
+            LinearLayout containerLayout = new LinearLayout(this);
+            containerLayout.setOrientation(LinearLayout.VERTICAL);
+            LinearLayout.LayoutParams containerParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            containerParams.setMargins(0,12,0,12);
+            containerLayout.setLayoutParams(containerParams);
+
+            TextView observationTitle = new TextView(this);
+            TextView observationTime = new TextView(this);
+            TextView observationNotes = new TextView(this);
+
+            observationTitle.setText(observation.getObservationTitle());
+            observationTitle.setTextColor(getColor(R.color.black));
+            observationTitle.setTextSize(20);
+
+            observationTime.setText(observation.getObservationTime());
+            observationTime.setTextSize(20);
+            observationTime.setTextColor(getColor(R.color.greyColor));
+
+            observationNotes.setText(observation.getObservationNotes());
+
+
+            timeLayout.addView(observationTime);
+            childLinearLayout.addView(observationTitle);
+            childLinearLayout.addView(observationNotes);
+            containerLayout.addView(timeLayout);
+            containerLayout.addView(childLinearLayout);
+
+            containerDetails.addView(containerLayout);
+        }
     }
     protected void mapping(){
         hikeDesti = (TextView)findViewById(R.id.hikeDesti);
@@ -114,6 +172,6 @@ public class detailtrip extends AppCompatActivity {
         hikeName = (TextView)findViewById(R.id.hikeName);
         btnFinish = (Button)findViewById(R.id.btnFinish);
         btnAddMore = (Button)findViewById(R.id.btnAddMore);
-        containerDetails = (ScrollView)findViewById(R.id.containerDetails);
+        containerDetails = (LinearLayout)findViewById(R.id.containerDetails);
     }
 }

@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent homepage = new Intent(MainActivity.this, home.class);
                 startActivity(homepage);
+                finish();
             }
         });
     }

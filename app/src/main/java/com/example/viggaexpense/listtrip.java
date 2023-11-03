@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class listtrip extends AppCompatActivity {
@@ -149,7 +150,9 @@ public class listtrip extends AppCompatActivity {
                     dataTrip tripInfo = (dataTrip) view.getTag();
                     if(tripInfo != null){
                         Intent intent = new Intent(listtrip.this, detailtrip.class);
+//                        List<Observation> observationListForTrip = getObservationListForTrip(tripInfo.getId());
                         intent.putExtra("tripInfo", tripInfo);
+//                        intent.putExtra("observationListForTrip", (Serializable) observationListForTrip);
                         startActivity(intent);
                     }
                 }
@@ -243,6 +246,11 @@ public class listtrip extends AppCompatActivity {
             }
         });
     }
+    private List<Observation> getObservationListForTrip(int tripId) {
+        DatabaseHelpers dbHelpers = new DatabaseHelpers(getApplicationContext());
+        return dbHelpers.getObvervationDetails(tripId);
+    }
+
     protected void mappingListTrip(){
         parentLayout = (LinearLayout)findViewById(R.id.parentLayout);
         drawerLayout = (DrawerLayout)findViewById(R.id.drawerLayout);

@@ -1,67 +1,78 @@
-package com.example.viggaexpense;
+    package com.example.viggaexpense;
 
-import androidx.appcompat.app.AppCompatActivity;
+    import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
+    import android.content.Intent;
+    import android.os.Bundle;
+    import android.view.View;
+    import android.widget.Button;
+    import android.widget.CheckBox;
+    import android.widget.EditText;
+    import android.widget.TextView;
+    import android.widget.Toast;
 
-public class newobversation extends AppCompatActivity {
-    Button btnFinish, btnAddObvers;
-    EditText edtObversation, edtTimeOfObversation, edtNotes;
-    CheckBox checkReuire;
-    dataTrip tripInfo;
-    TextView hikeName;
+    public class newobversation extends AppCompatActivity {
+        Button btnFinish, btnAddObvers;
+        EditText edtObversation, edtNotes;
+        CheckBox checkReuire;
+        dataTrip tripInfo;
+        TextView hikeName, edtTimeOfObversation;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_newobversation);
-        mapping();
-        setupAddObservationButton();
-        dataTrip tripInfo = (dataTrip) getIntent().getSerializableExtra("tripInfo");
-        hikeName.setText(tripInfo.getName());
-        btnFinish.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-
-    }
-    private void setupAddObservationButton() {
-        btnAddObvers.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (checkReuire.isChecked()) {
-                    String observation = edtObversation.getText().toString();
-                    String timeOfObservation = edtTimeOfObversation.getText().toString();
-                    String notes = edtNotes.getText().toString();
-                    Observation newObservation = new Observation(observation, timeOfObservation, notes);
-                    tripInfo.addObservation(newObservation);
-                    Intent intent = new Intent(newobversation.this, detailtrip.class);
-                    intent.putExtra("newObservation", newObservation);
-                    intent.putExtra("tripInfo", tripInfo);
-                    startActivity(intent);
-                    Toast.makeText(newobversation.this, "Add Obversation Successfully", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(newobversation.this, "Please agree to the terms and information", Toast.LENGTH_SHORT).show();
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_newobversation);
+            mapping();
+            tripInfo = (dataTrip) getIntent().getSerializableExtra("tripInfo");
+            hikeName.setText(tripInfo.getName());
+            btnAddObvers.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    checkRequire();
                 }
+            });
+            btnFinish.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    finish();
+                }
+            });
+
+        }
+
+        public void checkRequire(){
+            if(edtObversation.getText().toString().equals("")){
+                edtObversation.setError("Please fill obversation title");
             }
-        });
+            else if(edtTimeOfObversation.getText().toString().equals("")){
+                edtObversation.setError("Please fill time of the obversation");
+            }
+            else if(!checkReuire.isChecked()){
+                checkReuire.setError("");
+                Toast.makeText(newobversation.this, "Please check the box to agree to the terms", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                createObversation();
+                Intent backToDetail = new Intent(newobversation.this, detailtrip.class);
+                backToDetail.putExtra("tripInfo", tripInfo);
+                startActivity(backToDetail);
+            }
+        }
+        public void createObversation(){
+            DatabaseHelpers dbHelpers = new DatabaseHelpers(getApplicationContext());
+            int tripId = tripInfo.getId();
+            String observationTitle = edtObversation.getText().toString();
+            String observationTime = edtTimeOfObversation.getText().toString();
+            String observationNotes = edtNotes.getText().toString();
+            long observationId = dbHelpers.inserObservation(tripId , observationTitle, observationTime, observationNotes);
+        }
+        protected void mapping(){
+            btnFinish = (Button)findViewById(R.id.btnFinish);
+            btnAddObvers = (Button)findViewById(R.id.btnAddObvers);
+            edtObversation = (EditText)findViewById(R.id.edtObversation);
+            edtTimeOfObversation = (TextView)findViewById(R.id.edtTimeOfObversation);
+            edtNotes = (EditText)findViewById(R.id.edtNotes);
+            checkReuire = (CheckBox)findViewById(R.id.checkReuire);
+            hikeName = (TextView)findViewById(R.id.hikeName);
+        }
     }
-    protected void mapping(){
-        btnFinish = (Button)findViewById(R.id.btnFinish);
-        btnAddObvers = (Button)findViewById(R.id.btnAddObvers);
-        edtObversation = (EditText)findViewById(R.id.edtObversation);
-        edtTimeOfObversation = (EditText)findViewById(R.id.edtTimeOfObversation);
-        edtNotes = (EditText)findViewById(R.id.edtNotes);
-        checkReuire = (CheckBox)findViewById(R.id.checkReuire);
-        hikeName = (TextView)findViewById(R.id.hikeName);
-    }
-}
