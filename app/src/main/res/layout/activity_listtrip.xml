@@ -15,6 +15,16 @@ tools:context=".listtrip">
 
         <include layout="@layout/toolbar" />
 
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/searchView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            app:queryHint="Search here...."
+            android:background="@drawable/search_style"
+            app:backgroundTint="@null"
+            app:iconifiedByDefault="false"/>
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">

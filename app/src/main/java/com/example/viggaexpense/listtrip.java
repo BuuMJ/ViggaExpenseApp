@@ -1,6 +1,8 @@
 package com.example.viggaexpense;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -12,6 +14,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.text.Layout;
@@ -19,6 +22,7 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -30,6 +34,10 @@ import android.widget.Toast;
 import org.w3c.dom.Text;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
 public class listtrip extends AppCompatActivity {
@@ -37,6 +45,8 @@ public class listtrip extends AppCompatActivity {
     ImageView menu, closeMenuIcon;
     LinearLayout nav_home, nav_newtrip, nav_listtrip, nav_about, parentLayout;
     TextView titleMenu;
+    SearchView searchView;
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +55,19 @@ public class listtrip extends AppCompatActivity {
         DatabaseHelpers dbHelpers = new DatabaseHelpers(getApplicationContext());
         List<dataTrip> tripList = dbHelpers.getDetails();
         String[] tripArray = new String[tripList.size()];
+        searchView.clearFocus();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filterList(newText);
+                return true;
+            }
+        });
         for (int i = 0; i < tripList.size(); i++) {
             dataTrip trip = tripList.get(i);
             LinearLayout childLinearLayout = new LinearLayout(this);
@@ -70,7 +93,7 @@ public class listtrip extends AppCompatActivity {
             TextView infoTripText = new TextView(this);
             TextView parkingText = new TextView(this);
             TextView startDateText = new TextView(this);
-            TextView endDateText = new TextView(this);
+            TextView duration = new TextView(this);
 
             Button editHike = new Button(this);
             Button deleteHike = new Button(this);
@@ -79,14 +102,14 @@ public class listtrip extends AppCompatActivity {
                     0,
                     LinearLayout.LayoutParams.WRAP_CONTENT
             );
-            editParams.setMargins(0,0,4,0);
+            editParams.setMargins(0,12,4,0);
             editParams.weight = 1;
 
             LinearLayout.LayoutParams deleteParams = new LinearLayout.LayoutParams(
                     0,
                     LinearLayout.LayoutParams.WRAP_CONTENT
             );
-            deleteParams.setMargins(4,0,0,0);
+            deleteParams.setMargins(4,12,0,0);
             deleteParams.weight = 1;
 
             editHike.setLayoutParams(editParams);
@@ -95,37 +118,66 @@ public class listtrip extends AppCompatActivity {
             actionLinearLayout.addView(editHike);
             actionLinearLayout.addView(deleteHike);
 
-            tripNameText.setText((i + 1) + " - " + trip.getName());
-            tripNameText.setTextSize(22);
+            tripNameText.setText(trip.getName());
+            tripNameText.setTextSize(26);
             tripNameText.setTextColor(ContextCompat.getColor(this, R.color.mainColor));
-            tripNameText.setPadding(0,0,0,6);
+            tripNameText.setPadding(0,14,0,14);
             tripNameText.setTypeface(Typeface.DEFAULT_BOLD);
 
             infoTripText.setTextColor(getResources().getColor(android.R.color.black));
-            infoTripText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.location, 0, 0, 0);
-            infoTripText.setText(" Destination: " + trip.getDesti());
+            infoTripText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.destiicon, 0, 0, 0);
+            infoTripText.setText("  " + trip.getDesti());
+            infoTripText.setGravity(Gravity.CENTER_VERTICAL);
             infoTripText.setTextSize(18);
-            infoTripText.setPadding(0,6,0,6);
+            infoTripText.setPadding(0,14,0,14);
 
             parkingText.setTextColor(getResources().getColor(android.R.color.black));
-            parkingText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.parking, 0, 0, 0);
-            parkingText.setText(" Parking: " + trip.getParking());
+            parkingText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.parkingicon, 0, 0, 0);
+            parkingText.setText("  " + trip.getParking());
+            parkingText.setGravity(Gravity.CENTER_VERTICAL);
             parkingText.setTextSize(18);
-            parkingText.setPadding(0,6,0,6);
+            parkingText.setPadding(0,14,0,14);
 
-            SpannableString contentStartDateText = new SpannableString("Start Date: " + trip.getStartDate());
-            ForegroundColorSpan colorContentStartDateText = new ForegroundColorSpan(Color.BLACK);
-            contentStartDateText.setSpan(colorContentStartDateText, 0, 11, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            startDateText.setPadding(0,6,0,6);
-            startDateText.setText(contentStartDateText);
+            startDateText.setTextColor(getResources().getColor(android.R.color.black));
+            startDateText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.starticon, 0, 0, 0);
+            startDateText.setText("  " + trip.getStartDate());
+            startDateText.setGravity(Gravity.CENTER_VERTICAL);
             startDateText.setTextSize(18);
+            startDateText.setPadding(0,14,0,14);
 
-            SpannableString contentEndDateText = new SpannableString("End Date: " + trip.getEndDate());
-            ForegroundColorSpan colorContentEndDateText = new ForegroundColorSpan(Color.BLACK);
-            contentEndDateText.setSpan(colorContentEndDateText, 0, 9, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            endDateText.setText(contentEndDateText);
-            endDateText.setPadding(0,0,0,6);
-            endDateText.setTextSize(18);
+            String start = trip.getStartDate();
+            String end = trip.getEndDate();
+            if (start.length() < 10) {
+                start = start.substring(0, 8) + "0" + start.substring(8);
+            }
+            if (end.length() < 10) {
+                end = end.substring(0, 8) + "0" + end.substring(8);
+            }
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate startDate = LocalDate.parse(start, dateFormatter);
+            LocalDate endDate = LocalDate.parse(end, dateFormatter);
+            long days = ChronoUnit.DAYS.between(startDate, endDate) + 1;
+            String durationDays = String.valueOf(days);
+            String textDuration;
+            if (days < 10){
+                if(days <= 1){
+                    textDuration = "0" + durationDays + " Day";
+                }
+                else {
+                    textDuration = "0" + durationDays + " Days";
+                }
+            }
+            else {
+                textDuration = durationDays + " Days";
+            }
+            String durationText = "  " + textDuration;
+            duration.setTextColor(getResources().getColor(R.color.black));
+            duration.setCompoundDrawablesWithIntrinsicBounds(R.drawable.durationicon, 0, 0, 0);
+            duration.setText(durationText);
+            duration.setGravity(Gravity.CENTER_VERTICAL);
+            duration.setTextSize(18);
+            duration.setPadding(0,14,0,14);
+
 
             editHike.setText("Edit Hike");
             editHike.setTextSize(18);
@@ -140,7 +192,7 @@ public class listtrip extends AppCompatActivity {
             childLinearLayout.addView(infoTripText);
             childLinearLayout.addView(parkingText);
             childLinearLayout.addView(startDateText);
-            childLinearLayout.addView(endDateText);
+            childLinearLayout.addView(duration);
             childLinearLayout.addView(actionLinearLayout);
             childLinearLayout.setBackground(getResources().getDrawable(R.drawable.item_style_background));
 
@@ -246,6 +298,213 @@ public class listtrip extends AppCompatActivity {
             }
         });
     }
+
+    protected void filterList(String text) {
+        DatabaseHelpers dbHelpers = new DatabaseHelpers(getApplicationContext());
+        List<dataTrip> tripList = dbHelpers.getDetails();
+        List<dataTrip> filteredList = new ArrayList<>();
+        for (dataTrip trip : tripList) {
+            if (trip.getName().toLowerCase().contains(text.toLowerCase())) {
+                filteredList.add(trip);
+            }
+        }
+            updateUI(filteredList);
+    }
+    protected void updateUI(List<dataTrip> trips) {
+        parentLayout.removeAllViews();
+        if (trips.isEmpty()) {
+            TextView emptyTextView = new TextView(this);
+            emptyTextView.setText("No trips matching your search");
+            emptyTextView.setTextSize(18);
+            emptyTextView.setTextColor(getResources().getColor(android.R.color.black));
+            parentLayout.addView(emptyTextView);
+            return;
+        }
+        for (int i = 0; i < trips.size(); i++) {
+            dataTrip trip = trips.get(i);
+            LinearLayout childLinearLayout = new LinearLayout(this);
+            childLinearLayout.setOrientation(LinearLayout.VERTICAL);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            layoutParams.setMargins(0,12,0,12);
+            childLinearLayout.setLayoutParams(layoutParams);
+            childLinearLayout.setTag(trip);
+
+            LinearLayout actionLinearLayout = new LinearLayout(this);
+            actionLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
+            LinearLayout.LayoutParams actionLayoutParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            actionLayoutParams.setMargins(0,12,0,0);
+            actionLinearLayout.setLayoutParams(actionLayoutParams);
+
+            TextView tripNameText = new TextView(this);
+            TextView infoTripText = new TextView(this);
+            TextView parkingText = new TextView(this);
+            TextView startDateText = new TextView(this);
+            TextView duration = new TextView(this);
+
+            Button editHike = new Button(this);
+            Button deleteHike = new Button(this);
+
+            LinearLayout.LayoutParams editParams = new LinearLayout.LayoutParams(
+                    0,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            editParams.setMargins(0,12,4,0);
+            editParams.weight = 1;
+
+            LinearLayout.LayoutParams deleteParams = new LinearLayout.LayoutParams(
+                    0,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            deleteParams.setMargins(4,12,0,0);
+            deleteParams.weight = 1;
+
+            editHike.setLayoutParams(editParams);
+            deleteHike.setLayoutParams(deleteParams);
+
+            actionLinearLayout.addView(editHike);
+            actionLinearLayout.addView(deleteHike);
+
+            tripNameText.setText(trip.getName());
+            tripNameText.setTextSize(26);
+            tripNameText.setTextColor(ContextCompat.getColor(this, R.color.mainColor));
+            tripNameText.setPadding(0,14,0,14);
+            tripNameText.setTypeface(Typeface.DEFAULT_BOLD);
+
+            infoTripText.setTextColor(getResources().getColor(android.R.color.black));
+            infoTripText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.destiicon, 0, 0, 0);
+            infoTripText.setText("  " + trip.getDesti());
+            infoTripText.setGravity(Gravity.CENTER_VERTICAL);
+            infoTripText.setTextSize(18);
+            infoTripText.setPadding(0,14,0,14);
+
+            parkingText.setTextColor(getResources().getColor(android.R.color.black));
+            parkingText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.parkingicon, 0, 0, 0);
+            parkingText.setText("  " + trip.getParking());
+            parkingText.setGravity(Gravity.CENTER_VERTICAL);
+            parkingText.setTextSize(18);
+            parkingText.setPadding(0,14,0,14);
+
+            startDateText.setTextColor(getResources().getColor(android.R.color.black));
+            startDateText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.starticon, 0, 0, 0);
+            startDateText.setText("  " + trip.getStartDate());
+            startDateText.setGravity(Gravity.CENTER_VERTICAL);
+            startDateText.setTextSize(18);
+            startDateText.setPadding(0,14,0,14);
+
+            String start = trip.getStartDate();
+            String end = trip.getEndDate();
+            if (start.length() < 10) {
+                start = start.substring(0, 8) + "0" + start.substring(8);
+            }
+            if (end.length() < 10) {
+                end = end.substring(0, 8) + "0" + end.substring(8);
+            }
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate startDate = LocalDate.parse(start, dateFormatter);
+            LocalDate endDate = LocalDate.parse(end, dateFormatter);
+            long days = ChronoUnit.DAYS.between(startDate, endDate) + 1;
+            String durationDays = String.valueOf(days);
+            String textDuration;
+            if (days < 10){
+                if(days <= 1){
+                    textDuration = "0" + durationDays + " Day";
+                }
+                else {
+                    textDuration = "0" + durationDays + " Days";
+                }
+            }
+            else {
+                textDuration = durationDays + " Days";
+            }
+            String durationText = "  " + textDuration;
+            duration.setTextColor(getResources().getColor(R.color.black));
+            duration.setCompoundDrawablesWithIntrinsicBounds(R.drawable.durationicon, 0, 0, 0);
+            duration.setText(durationText);
+            duration.setGravity(Gravity.CENTER_VERTICAL);
+            duration.setTextSize(18);
+            duration.setPadding(0,14,0,14);
+
+
+            editHike.setText("Edit Hike");
+            editHike.setTextSize(18);
+            editHike.setBackground(getResources().getDrawable(R.drawable.edit_button));
+            editHike.setTextColor(getResources().getColor(R.color.white));
+            deleteHike.setText("Delete Hike");
+            deleteHike.setBackground(getResources().getDrawable(R.drawable.delete_button));
+            deleteHike.setTextColor(getResources().getColor(R.color.white));
+            deleteHike.setTextSize(18);
+
+            childLinearLayout.addView(tripNameText);
+            childLinearLayout.addView(infoTripText);
+            childLinearLayout.addView(parkingText);
+            childLinearLayout.addView(startDateText);
+            childLinearLayout.addView(duration);
+            childLinearLayout.addView(actionLinearLayout);
+            childLinearLayout.setBackground(getResources().getDrawable(R.drawable.item_style_background));
+
+            childLinearLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dataTrip tripInfo = (dataTrip) view.getTag();
+                    if(tripInfo != null){
+                        Intent intent = new Intent(listtrip.this, detailtrip.class);
+//                        List<Observation> observationListForTrip = getObservationListForTrip(tripInfo.getId());
+                        intent.putExtra("tripInfo", tripInfo);
+//                        intent.putExtra("observationListForTrip", (Serializable) observationListForTrip);
+                        startActivity(intent);
+                    }
+                }
+            });
+            editHike.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dataTrip tripInfo = (dataTrip) childLinearLayout.getTag();
+                    if (tripInfo != null) {
+                        Intent intent = new Intent(listtrip.this, update.class);
+                        intent.putExtra("tripInfo", tripInfo);
+                        startActivity(intent);
+                    }
+                }
+            });
+            deleteHike.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dataTrip tripInfo = (dataTrip) childLinearLayout.getTag();
+                    if (tripInfo != null) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(listtrip.this);
+                        builder.setTitle("Confirm Delete")
+                                .setMessage("Are you sure you want to delete this hike?")
+                                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        DatabaseHelpers dbHelpers = new DatabaseHelpers(getApplicationContext());
+                                        dbHelpers.deleteTrip(tripInfo.getId());
+                                        parentLayout.removeView(childLinearLayout);
+                                        Toast.makeText(listtrip.this, "Deleted Successfully", Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                    }
+                                });
+                        AlertDialog alertDialog = builder.create();
+                        alertDialog.show();
+                    }
+                }
+            });
+
+            parentLayout.addView(childLinearLayout);
+        }
+    }
+
     private List<Observation> getObservationListForTrip(int tripId) {
         DatabaseHelpers dbHelpers = new DatabaseHelpers(getApplicationContext());
         return dbHelpers.getObvervationDetails(tripId);
@@ -261,6 +520,7 @@ public class listtrip extends AppCompatActivity {
         nav_about = (LinearLayout)findViewById(R.id.about);
         titleMenu = (TextView)findViewById(R.id.titleMenu);
         closeMenuIcon = (ImageView)findViewById(R.id.closeMenuIcon);
+        searchView = (SearchView)findViewById(R.id.searchView);
     }
     public static void openDrawer(DrawerLayout drawerLayout){
         drawerLayout.openDrawer(GravityCompat.START);

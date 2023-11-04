@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name"></string>
+    <string name="app_name">Vigga-Hike</string>
     <string name="main_name">Vigga-Hike</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -16,4 +16,5 @@
         <item value="3">Difficulty</item>
         <item value="4">Very Difficult</item>
     </string-array>
+    <dimen name="icon_style">30dp</dimen>
 </resources>
