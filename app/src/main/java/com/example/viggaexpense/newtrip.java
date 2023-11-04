@@ -29,7 +29,7 @@ import java.util.Locale;
 public class newtrip extends AppCompatActivity {
     TextView datePickerStartDate, datePickerEndDate;
     SimpleDateFormat dateFormatter;
-    Button btnCreateTrip;
+    Button btnCreateTrip, btnFinish;
     CheckBox checkReuire;
     EditText edtTripName, edtDesti, edtDesc, edtLength, edtBudget;
     Spinner edtParking, edtLevel;
@@ -48,17 +48,25 @@ public class newtrip extends AppCompatActivity {
         levelAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         edtParking.setAdapter(parkingAdapter);
         edtLevel.setAdapter(levelAdapter);
+
         Calendar c = Calendar.getInstance();
         int y = c.get(Calendar.YEAR);
         int m = c.get(Calendar.MONTH);
         int d = c.get(Calendar.DAY_OF_MONTH);
         int de = c.get(Calendar.DAY_OF_MONTH ) + 2;
-        dateFormatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        dateFormatter = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         String currentDate = dateFormatter.format(c.getTime());
         datePickerStartDate.setText(currentDate);
+
         c.add(Calendar.DAY_OF_MONTH,2);
         String endDate = dateFormatter.format(c.getTime());
         datePickerEndDate.setText(endDate);
+        btnFinish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         datePickerStartDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,7 +75,13 @@ public class newtrip extends AppCompatActivity {
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
-                                String selectedDate = year + "-" + (month + 1) + "-" + dayOfMonth;
+                                String selectedDate;
+                                if (dayOfMonth < 10){
+                                    selectedDate = "0" + dayOfMonth + "/" + (month + 1) + "/" + year;
+                                }
+                                else {
+                                    selectedDate = dayOfMonth + "/" + (month + 1) + "/" + year;
+                                }
                                 datePickerStartDate.setText(selectedDate);
                             }
                         },
@@ -84,7 +98,13 @@ public class newtrip extends AppCompatActivity {
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
-                                String selectedDate = year + "-" + (month + 1) + "-" + dayOfMonth;
+                                String selectedDate;
+                                if (dayOfMonth < 10){
+                                    selectedDate = "0" + dayOfMonth + "/" + (month + 1) + "/" + year;
+                                }
+                                else {
+                                    selectedDate = dayOfMonth + "/" + (month + 1) + "/" + year;
+                                }
                                 datePickerEndDate.setText(selectedDate);
                             }
                         },
@@ -101,7 +121,7 @@ public class newtrip extends AppCompatActivity {
             }
         });
         nav_newtrip.setBackgroundColor(getResources().getColor(R.color.nav_color));
-        titleMenu.setText("New Trip");
+        titleMenu.setText("Vigga-Hike");
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -206,6 +226,7 @@ public class newtrip extends AppCompatActivity {
         edtLength = (EditText)findViewById(R.id.edtLength);
         edtParking = (Spinner)findViewById(R.id.edtParking);
         edtBudget = (EditText)findViewById(R.id.edtBudget);
+        btnFinish = (Button)findViewById(R.id.btnFinish);
     }
     public static void openDrawer(DrawerLayout drawerLayout){
         drawerLayout.openDrawer(GravityCompat.START);

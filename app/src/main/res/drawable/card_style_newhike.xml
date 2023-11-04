@@ -10,18 +10,14 @@
     </shape>
 </item>
 <item
-    android:left="4px"
-    android:right="4px"
+    android:left="6px"
+    android:right="6px"
     android:top="6px"
     android:bottom="6px">
-    <shape android:shape="rectangle">
+    <shape xmlns:android="http://schemas.android.com/apk/res/android">
+        <corners android:topLeftRadius="30dp"
+            android:topRightRadius="30dp"/>
         <solid android:color="@color/white"/>
-        <corners android:radius="10dp"/>
-        <padding
-            android:bottom="12dp"
-            android:right="12dp"
-            android:left="12dp"
-            android:top="12dp"/>
     </shape>
 </item>
 

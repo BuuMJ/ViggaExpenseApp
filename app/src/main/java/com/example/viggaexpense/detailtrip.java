@@ -69,7 +69,7 @@ public class detailtrip extends AppCompatActivity {
         if (end.length() < 10) {
             end = end.substring(0, 8) + "0" + end.substring(8);
         }
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate startDate = LocalDate.parse(start, dateFormatter);
         LocalDate endDate = LocalDate.parse(end, dateFormatter);
         long days = ChronoUnit.DAYS.between(startDate, endDate) + 1;
@@ -137,7 +137,7 @@ public class detailtrip extends AppCompatActivity {
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT
             );
-            containerParams.setMargins(0,12,0,12);
+            containerParams.setMargins(0,20,0,20);
             containerLayout.setLayoutParams(containerParams);
 
             TextView observationTitle = new TextView(this);
@@ -148,7 +148,8 @@ public class detailtrip extends AppCompatActivity {
             observationTitle.setTextColor(getColor(R.color.black));
             observationTitle.setTextSize(20);
 
-            observationTime.setText(observation.getObservationTime());
+            observationTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.starticon, 0, 0, 0);
+            observationTime.setText(" " + observation.getObservationTime());
             observationTime.setTextSize(20);
             observationTime.setTextColor(getColor(R.color.greyColor));
 

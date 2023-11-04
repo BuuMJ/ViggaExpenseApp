@@ -43,9 +43,10 @@ import java.util.List;
 public class listtrip extends AppCompatActivity {
     DrawerLayout drawerLayout;
     ImageView menu, closeMenuIcon;
-    LinearLayout nav_home, nav_newtrip, nav_listtrip, nav_about, parentLayout;
-    TextView titleMenu;
+    LinearLayout nav_home, nav_newtrip, nav_listtrip, nav_about, parentLayout, box_searchAdvance;
+    TextView titleMenu, filter_search;
     SearchView searchView;
+    private boolean checkClick = false;
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +67,19 @@ public class listtrip extends AppCompatActivity {
             public boolean onQueryTextChange(String newText) {
                 filterList(newText);
                 return true;
+            }
+        });
+        filter_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!checkClick){
+                    showAvancedSearch();
+                    checkClick = true;
+                }
+                else{
+                    hideAvancedSearch();
+                    checkClick = false;
+                }
             }
         });
         for (int i = 0; i < tripList.size(); i++) {
@@ -140,7 +154,7 @@ public class listtrip extends AppCompatActivity {
 
             startDateText.setTextColor(getResources().getColor(android.R.color.black));
             startDateText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.starticon, 0, 0, 0);
-            startDateText.setText("  " + trip.getStartDate());
+            startDateText.setText("  " + trip.getStartDate() + " - " + trip.getEndDate());
             startDateText.setGravity(Gravity.CENTER_VERTICAL);
             startDateText.setTextSize(18);
             startDateText.setPadding(0,14,0,14);
@@ -153,7 +167,7 @@ public class listtrip extends AppCompatActivity {
             if (end.length() < 10) {
                 end = end.substring(0, 8) + "0" + end.substring(8);
             }
-            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             LocalDate startDate = LocalDate.parse(start, dateFormatter);
             LocalDate endDate = LocalDate.parse(end, dateFormatter);
             long days = ChronoUnit.DAYS.between(startDate, endDate) + 1;
@@ -405,7 +419,7 @@ public class listtrip extends AppCompatActivity {
             if (end.length() < 10) {
                 end = end.substring(0, 8) + "0" + end.substring(8);
             }
-            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             LocalDate startDate = LocalDate.parse(start, dateFormatter);
             LocalDate endDate = LocalDate.parse(end, dateFormatter);
             long days = ChronoUnit.DAYS.between(startDate, endDate) + 1;
@@ -509,7 +523,12 @@ public class listtrip extends AppCompatActivity {
         DatabaseHelpers dbHelpers = new DatabaseHelpers(getApplicationContext());
         return dbHelpers.getObvervationDetails(tripId);
     }
-
+    protected void showAvancedSearch(){
+        box_searchAdvance.setVisibility(View.VISIBLE);
+    }
+    protected void hideAvancedSearch(){
+        box_searchAdvance.setVisibility(View.GONE);
+    }
     protected void mappingListTrip(){
         parentLayout = (LinearLayout)findViewById(R.id.parentLayout);
         drawerLayout = (DrawerLayout)findViewById(R.id.drawerLayout);
@@ -521,6 +540,8 @@ public class listtrip extends AppCompatActivity {
         titleMenu = (TextView)findViewById(R.id.titleMenu);
         closeMenuIcon = (ImageView)findViewById(R.id.closeMenuIcon);
         searchView = (SearchView)findViewById(R.id.searchView);
+        filter_search = (TextView)findViewById(R.id.filter_search);
+        box_searchAdvance = (LinearLayout)findViewById(R.id.box_searchAdvance);
     }
     public static void openDrawer(DrawerLayout drawerLayout){
         drawerLayout.openDrawer(GravityCompat.START);
