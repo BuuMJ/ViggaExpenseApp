@@ -21,16 +21,16 @@ import java.util.Calendar;
 public class update extends AppCompatActivity {
     EditText edtTripNameEdit, edtDestiEdit, edtLengthEdit, edtBudgetEdit, edtDescEdit;
     Spinner edtLevelEdit, edtParkingEdit;
-    TextView datepickerstartEdit, datepickerendEdit;
+    TextView datepickerstartEdit, datepickerendEdit, hikeName;
     CheckBox checkUpdate;
-    Button btnUpdate;
+    Button btnUpdate, btnFinish;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update);
         mapping();
         dataTrip tripInfo = (dataTrip) getIntent().getSerializableExtra("tripInfo");
-
+        hikeName.setText(tripInfo.getName());
         edtTripNameEdit.setText(tripInfo.getName());
         edtDestiEdit.setText(tripInfo.getDesti());
         edtLengthEdit.setText(tripInfo.getLength());
@@ -118,6 +118,12 @@ public class update extends AppCompatActivity {
                 }
             }
         });
+        btnFinish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
     protected void mapping(){
         edtTripNameEdit = (EditText)findViewById(R.id.edtTripNameEdit);
@@ -131,5 +137,7 @@ public class update extends AppCompatActivity {
         datepickerendEdit = (TextView)findViewById(R.id.datepickerendEdit);
         checkUpdate = (CheckBox)findViewById(R.id.checkUpdate);
         btnUpdate = (Button)findViewById(R.id.btnUpdate);
+        hikeName = (TextView)findViewById(R.id.hikeName);
+        btnFinish = (Button)findViewById(R.id.btnFinish);
     }
 }

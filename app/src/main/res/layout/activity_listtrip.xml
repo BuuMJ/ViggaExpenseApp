@@ -20,7 +20,7 @@ tools:context=".listtrip">
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            app:queryHint="Search here...."
+            app:queryHint="Search name here...."
             android:background="@drawable/search_style"
             app:backgroundTint="@null"
             app:iconifiedByDefault="false" />
@@ -33,7 +33,10 @@ tools:context=".listtrip">
             android:text="Filter Search"
             android:textColor="@color/black"
             android:textSize="16dp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:drawableRight="@drawable/filtersearch"
+            android:gravity="center"
+            android:layout_marginBottom="6dp"/>
 
         <LinearLayout
             android:id="@+id/box_searchAdvance"
@@ -45,7 +48,8 @@ tools:context=".listtrip">
             android:paddingLeft="12dp"
             android:background="@drawable/search_style"
             android:orientation="vertical"
-            android:visibility="gone">
+            android:visibility="gone"
+            android:layout_marginBottom="8dp">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -61,7 +65,7 @@ tools:context=".listtrip">
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Hike Of Name"
+                    android:text="Destination"
                     android:textColor="@color/black"
                     android:textSize="18dp" />
 
@@ -71,43 +75,88 @@ tools:context=".listtrip">
                     android:layout_height="wrap_content"
                     android:background="@drawable/inputbottom"
                     android:ems="10"
-                    android:hint="Enter hike name..."
+                    android:hint="Search destination here..."
                     android:inputType="text"
                     android:textColor="@color/black"
                     android:textSize="18dp"
-                    app:backgroundTint="@null" />
+                    app:backgroundTint="@null"
+                    android:drawableLeft="@drawable/search"
+                    android:drawablePadding="8dp"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/inputstyle"
-                android:orientation="vertical"
-                android:paddingLeft="10dp"
-                android:paddingTop="10dp"
-                android:paddingRight="10dp"
-                android:paddingBottom="6dp"
-                app:backgroundTint="@null">
+                android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Hike Of Name"
-                    android:textColor="@color/black"
-                    android:textSize="18dp" />
+                    android:layout_marginTop="8dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/inputstyle"
+                    android:orientation="vertical"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingBottom="6dp"
+                    app:backgroundTint="@null">
 
-                <EditText
-                    android:id="@+id/searchDate"
-                    android:layout_width="match_parent"
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Start Date"
+                        android:textColor="@color/black"
+                        android:textSize="18dp" />
+
+                    <TextView
+                        android:id="@+id/dateSearchStart"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/inputbottom"
+                        android:hint="Search start date here..."
+                        android:textColor="@color/black"
+                        android:textSize="14dp"
+                        app:backgroundTint="@null" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/inputbottom"
-                    android:ems="10"
-                    android:hint="Enter hike name..."
-                    android:inputType="text"
-                    android:textColor="@color/black"
-                    android:textSize="18dp"
-                    app:backgroundTint="@null" />
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/inputstyle"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingBottom="6dp"
+                    app:backgroundTint="@null">
+
+                    <TextView
+                        android:id="@+id/textView12"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="End Date"
+                        android:textColor="@color/black"
+                        android:textSize="18dp" />
+
+                    <TextView
+                        android:id="@+id/dateSearchEnd"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/inputbottom"
+                        android:hint="Search end date here..."
+                        android:textColor="@color/black"
+                        android:textSize="14dp"
+                        app:backgroundTint="@null" />
+
+                </LinearLayout>
+
             </LinearLayout>
         </LinearLayout>
 

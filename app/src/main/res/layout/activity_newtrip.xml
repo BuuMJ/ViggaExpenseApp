@@ -321,19 +321,6 @@ tools:context=".listtrip">
                                 android:textSize="18dp"
                                 app:backgroundTint="@null" />
 
-                            <!--        <EditText-->
-                            <!--            android:id="@+id/editTextDate"-->
-                            <!--            android:layout_width="match_parent"-->
-                            <!--            android:layout_height="wrap_content"-->
-                            <!--            android:ems="10"-->
-                            <!--            android:hint="Today"-->
-                            <!--            android:inputType="date"-->
-                            <!--            android:textColor="@color/black"-->
-                            <!--            android:textColorHint="@color/black"-->
-                            <!--            android:textSize="18dp"-->
-                            <!--            app:backgroundTint="@null"-->
-                            <!--            android:background="@drawable/inputbottom"/>-->
-
                         </LinearLayout>
 
                         <LinearLayout
@@ -368,16 +355,6 @@ tools:context=".listtrip">
                                 android:textColor="@color/black"
                                 android:textSize="18dp"
                                 app:backgroundTint="@null" />
-
-                            <!--        <EditText-->
-                            <!--            android:id="@+id/editTextDate2"-->
-                            <!--            android:layout_width="match_parent"-->
-                            <!--            android:layout_height="wrap_content"-->
-                            <!--            android:ems="10"-->
-                            <!--            android:inputType="date"-->
-                            <!--            app:backgroundTint="@null"-->
-                            <!--            android:background="@drawable/inputbottom"/>-->
-
 
                         </LinearLayout>
 

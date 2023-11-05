@@ -9,6 +9,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -25,6 +26,8 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -34,18 +37,23 @@ import android.widget.Toast;
 import org.w3c.dom.Text;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class listtrip extends AppCompatActivity {
     DrawerLayout drawerLayout;
     ImageView menu, closeMenuIcon;
     LinearLayout nav_home, nav_newtrip, nav_listtrip, nav_about, parentLayout, box_searchAdvance;
-    TextView titleMenu, filter_search;
+    TextView titleMenu, filter_search, dateSearchStart, dateSearchEnd;
     SearchView searchView;
+    EditText searchDesti;
+    SimpleDateFormat dateFormatter;
     private boolean checkClick = false;
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -60,12 +68,13 @@ public class listtrip extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                return false;
+                filterList(query);
+                return true;
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
-                filterList(newText);
+            public boolean onQueryTextChange(String trip) {
+                filterList(trip);
                 return true;
             }
         });
@@ -75,11 +84,78 @@ public class listtrip extends AppCompatActivity {
                 if(!checkClick){
                     showAvancedSearch();
                     checkClick = true;
+                    filter_search.setText("Collapse");
+                    filter_search.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.collapseicon, 0);
                 }
                 else{
                     hideAvancedSearch();
                     checkClick = false;
+                    filter_search.setText("Filter Search");
+                    filter_search.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.filtersearch, 0);
                 }
+            }
+        });
+        Calendar c = Calendar.getInstance();
+        int y = c.get(Calendar.YEAR);
+        int m = c.get(Calendar.MONTH);
+        int d = c.get(Calendar.DAY_OF_MONTH);
+        dateFormatter = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        dateSearchStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(
+                        listtrip.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
+                                String selectedDate;
+                                if (dayOfMonth < 10){
+                                    selectedDate = "0" + dayOfMonth + "/" + (month + 1) + "/" + year;
+                                }
+                                else {
+                                    selectedDate = dayOfMonth + "/" + (month + 1) + "/" + year;
+                                }
+                                dateSearchStart.setText(selectedDate);
+                            }
+                        },
+                        y, m, d
+                );
+                datePickerDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialogInterface) {
+                        dateSearchStart.setText("");
+                    }
+                });
+                datePickerDialog.show();
+            }
+        });
+        dateSearchEnd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(
+                        listtrip.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
+                                String selectedDate;
+                                if (dayOfMonth < 10){
+                                    selectedDate = "0" + dayOfMonth + "/" + (month + 1) + "/" + year;
+                                }
+                                else {
+                                    selectedDate = dayOfMonth + "/" + (month + 1) + "/" + year;
+                                }
+                                dateSearchEnd.setText(selectedDate);
+                            }
+                        },
+                        y, m, d
+                );
+                datePickerDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialogInterface) {
+                        dateSearchEnd.setText("");
+                    }
+                });
+                datePickerDialog.show();
             }
         });
         for (int i = 0; i < tripList.size(); i++) {
@@ -241,7 +317,7 @@ public class listtrip extends AppCompatActivity {
                     if (tripInfo != null) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(listtrip.this);
                         builder.setTitle("Confirm Delete")
-                                .setMessage("Are you sure you want to delete this hike?")
+                                .setMessage("Are you sure you want to delete this hike? \n" + "(" + tripInfo.getName() + ")")
                                 .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -317,13 +393,30 @@ public class listtrip extends AppCompatActivity {
         DatabaseHelpers dbHelpers = new DatabaseHelpers(getApplicationContext());
         List<dataTrip> tripList = dbHelpers.getDetails();
         List<dataTrip> filteredList = new ArrayList<>();
+        String searchTextLower = text.toLowerCase();
         for (dataTrip trip : tripList) {
-            if (trip.getName().toLowerCase().contains(text.toLowerCase())) {
-                filteredList.add(trip);
+            if (trip.getName().toLowerCase().contains(searchTextLower)) {
+                boolean addToFilter = true;
+                String searchDestiText = searchDesti.getText().toString().toLowerCase();
+                if (!searchDestiText.isEmpty() && !trip.getDesti().toLowerCase().contains(searchDestiText)) {
+                    addToFilter = false;
+                }
+                String dateSearchStartText = dateSearchStart.getText().toString().toLowerCase();
+                if (addToFilter && !dateSearchStartText.isEmpty() && !trip.getStartDate().toLowerCase().contains(dateSearchStartText)) {
+                    addToFilter = false;
+                }
+                String dateSearchEndText = dateSearchEnd.getText().toString().toLowerCase();
+                if (addToFilter && !dateSearchEndText.isEmpty() && !trip.getEndDate().toLowerCase().contains(dateSearchEndText)) {
+                    addToFilter = false;
+                }
+                if (addToFilter) {
+                    filteredList.add(trip);
+                }
             }
         }
-            updateUI(filteredList);
+        updateUI(filteredList);
     }
+
     protected void updateUI(List<dataTrip> trips) {
         parentLayout.removeAllViews();
         if (trips.isEmpty()) {
@@ -406,7 +499,7 @@ public class listtrip extends AppCompatActivity {
 
             startDateText.setTextColor(getResources().getColor(android.R.color.black));
             startDateText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.starticon, 0, 0, 0);
-            startDateText.setText("  " + trip.getStartDate());
+            startDateText.setText("  " + trip.getStartDate() + " - " + trip.getEndDate());
             startDateText.setGravity(Gravity.CENTER_VERTICAL);
             startDateText.setTextSize(18);
             startDateText.setPadding(0,14,0,14);
@@ -493,7 +586,7 @@ public class listtrip extends AppCompatActivity {
                     if (tripInfo != null) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(listtrip.this);
                         builder.setTitle("Confirm Delete")
-                                .setMessage("Are you sure you want to delete this hike?")
+                                .setMessage("Are you sure you want to delete this hike? \n" + "(" + tripInfo.getName() + ")")
                                 .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -542,6 +635,9 @@ public class listtrip extends AppCompatActivity {
         searchView = (SearchView)findViewById(R.id.searchView);
         filter_search = (TextView)findViewById(R.id.filter_search);
         box_searchAdvance = (LinearLayout)findViewById(R.id.box_searchAdvance);
+        searchDesti = (EditText)findViewById(R.id.searchDesti);
+        dateSearchStart = (TextView)findViewById(R.id.dateSearchStart);
+        dateSearchEnd = (TextView)findViewById(R.id.dateSearchEnd);
     }
     public static void openDrawer(DrawerLayout drawerLayout){
         drawerLayout.openDrawer(GravityCompat.START);

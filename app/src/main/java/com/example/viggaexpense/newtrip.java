@@ -61,12 +61,6 @@ public class newtrip extends AppCompatActivity {
         c.add(Calendar.DAY_OF_MONTH,2);
         String endDate = dateFormatter.format(c.getTime());
         datePickerEndDate.setText(endDate);
-        btnFinish.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
         datePickerStartDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -111,6 +105,12 @@ public class newtrip extends AppCompatActivity {
                         y, m, de
                 );
                 datePickerDialog.show();
+            }
+        });
+        btnFinish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
         btnCreateTrip.setOnClickListener(new View.OnClickListener() {
