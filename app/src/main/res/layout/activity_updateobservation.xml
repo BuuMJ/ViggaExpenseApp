@@ -29,7 +29,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/hikeName"
+            android:id="@+id/observationName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="50dp"
@@ -55,7 +55,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
         android:gravity="center"
-        android:text="Add Observation"
+        android:text="Update Observation"
         android:textColor="@color/black"
         android:textSize="30dp"
         android:textStyle="bold" />
@@ -72,7 +72,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="16dp"
             android:background="@drawable/inputstyle"
             android:orientation="vertical"
             android:paddingLeft="10dp"
@@ -90,7 +90,7 @@
                 android:textSize="18dp" />
 
             <EditText
-                android:id="@+id/edtObversation"
+                android:id="@+id/edtObversationEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/inputbottom"
@@ -122,7 +122,7 @@
                 android:textSize="18dp" />
 
             <TextView
-                android:id="@+id/edtTimeOfObversation"
+                android:id="@+id/edtTimeOfObversationEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/inputbottom"
@@ -154,7 +154,7 @@
                 android:textSize="18dp" />
 
             <EditText
-                android:id="@+id/edtNotes"
+                android:id="@+id/edtNotesEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/inputbottom"
@@ -167,7 +167,7 @@
         </LinearLayout>
 
         <CheckBox
-            android:id="@+id/checkReuire"
+            android:id="@+id/checkUpdate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -175,12 +175,12 @@
             android:textSize="18dp" />
 
         <Button
-            android:id="@+id/btnAddObvers"
+            android:id="@+id/btnUpdateObvers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:background="@drawable/btnnewtrip"
-            android:text="Add New Observation"
+            android:text="Update"
             android:textColor="@color/white"
             android:textSize="18dp"
             android:textStyle="bold"

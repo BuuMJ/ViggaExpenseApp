@@ -177,6 +177,21 @@ public class DatabaseHelpers extends SQLiteOpenHelper {
         String[] whereArgs = {String.valueOf(tripId)};
         database.delete("list_trip", whereClause, whereArgs);
     }
+    public void updateObservation(String observationId, String tripId, String observationTitle, String observationTime, String observationNotes){
+        SQLiteDatabase database = getWritableDatabase();
+        ContentValues rowValues = new ContentValues();
+        rowValues.put(COLUMN_TRIP_ID_OBSERVATION, tripId);
+        rowValues.put(COLUMN_OBSERVATION_TITLE, observationTitle);
+        rowValues.put(COLUMN_OBSERVATION_TIME, observationTime);
+        rowValues.put(COLUMN_OBSERVATION_NOTES, observationNotes);
+        long result = database.update(TABLE_OBSERVATIONS, rowValues, "observation_id=?", new String[]{observationId});
+    }
+    public void deleteObversation(int obversationId){
+        SQLiteDatabase database = getWritableDatabase();
+        String whereClause = "observation_id=?";
+        String[] whereArgs = {String.valueOf(obversationId)};
+        database.delete("observations", whereClause, whereArgs);
+    }
     public void resetDatabase() {
         SQLiteDatabase database = getWritableDatabase();
         database.execSQL("DROP TABLE IF EXISTS " + DATABASE_NAME);

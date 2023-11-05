@@ -3,6 +3,8 @@ package com.example.viggaexpense;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -11,11 +13,13 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.StyleSpan;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -112,6 +116,16 @@ public class detailtrip extends AppCompatActivity {
         Log.d("test", "onCreate: " + observationList);
 
         for (Observation observation : observationList) {
+            LinearLayout containerLayout = new LinearLayout(this);
+            containerLayout.setOrientation(LinearLayout.VERTICAL);
+            LinearLayout.LayoutParams containerParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            containerParams.setMargins(0,20,0,20);
+            containerLayout.setLayoutParams(containerParams);
+            containerLayout.setTag(observation);
+
             LinearLayout childLinearLayout = new LinearLayout(this);
             childLinearLayout.setOrientation(LinearLayout.VERTICAL);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
@@ -131,39 +145,115 @@ public class detailtrip extends AppCompatActivity {
             timeLayoutParams.setMargins(0,0,0,12);
             timeLayout.setLayoutParams(timeLayoutParams);
 
-            LinearLayout containerLayout = new LinearLayout(this);
-            containerLayout.setOrientation(LinearLayout.VERTICAL);
-            LinearLayout.LayoutParams containerParams = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
+
+            LinearLayout actionObservationLayout = new LinearLayout(this);
+            LinearLayout.LayoutParams actionObservationLayoutParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT
             );
-            containerParams.setMargins(0,20,0,20);
-            containerLayout.setLayoutParams(containerParams);
+            actionObservationLayout.setOrientation(LinearLayout.HORIZONTAL);
+            actionObservationLayout.setPadding(0,8,0,8);
+            actionObservationLayout.setLayoutParams(actionObservationLayoutParams);
 
             TextView observationTitle = new TextView(this);
             TextView observationTime = new TextView(this);
             TextView observationNotes = new TextView(this);
 
+            Button editObservation = new Button(this);
+            Button deleteObservation = new Button(this);
+
+            LinearLayout.LayoutParams marginEditParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    120
+            );
+            marginEditParams.setMargins(0,12,12,0);
+
+            editObservation.setText("Edit");
+            editObservation.setBackground(getDrawable(R.drawable.edit_button));
+            editObservation.setGravity(Gravity.CENTER);
+            editObservation.setTextSize(16);
+            editObservation.setTextColor(getColor(R.color.white));
+            editObservation.setLayoutParams(marginEditParams);
+
+            LinearLayout.LayoutParams marginDeleteParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    120
+            );
+            marginDeleteParams.setMargins(12,12,0,0);
+            deleteObservation.setText("Delete");
+            deleteObservation.setBackground(getDrawable(R.drawable.delete_button));
+            deleteObservation.setGravity(Gravity.CENTER);
+            deleteObservation.setTextSize(16);
+            deleteObservation.setTextColor(getColor(R.color.white));
+            deleteObservation.setLayoutParams(marginDeleteParams);
+
+            editObservation.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Observation observationInfo = (Observation) containerLayout.getTag();
+                    Intent intent = new Intent(detailtrip.this, updateobservation.class);
+                    intent.putExtra("tripInfo", tripInfo);
+                    Log.d("aaaa", "onClick: " + tripInfo);
+                    intent.putExtra("observationInfo", observationInfo);
+                    startActivity(intent);
+                }
+            });
+
+            deleteObservation.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(detailtrip.this);
+                    builder.setTitle("Confirm Delete")
+                            .setMessage("Are you sure you want to delete this observation? \n" + "(" + observation.getObservationTitle() + ")")
+                            .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    DatabaseHelpers dbHelpers = new DatabaseHelpers(getApplicationContext());
+                                    dbHelpers.deleteObversation(observation.getObservationId());
+                                    containerLayout.removeView(timeLayout);
+                                    containerLayout.removeView(childLinearLayout);
+                                    Toast.makeText(detailtrip.this, "Deleted Successfully", Toast.LENGTH_SHORT).show();
+                                }
+                            })
+                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            });
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+                }
+            });
+
             observationTitle.setText(observation.getObservationTitle());
             observationTitle.setTextColor(getColor(R.color.black));
             observationTitle.setTextSize(20);
 
-            observationTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.starticon, 0, 0, 0);
+            observationTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.timeobversation, 0, 0, 0);
             observationTime.setText(" " + observation.getObservationTime());
-            observationTime.setTextSize(20);
+            observationTime.setTextSize(18);
             observationTime.setTextColor(getColor(R.color.greyColor));
 
             observationNotes.setText(observation.getObservationNotes());
 
+            actionObservationLayout.addView(editObservation);
+            actionObservationLayout.addView(deleteObservation);
 
             timeLayout.addView(observationTime);
+
             childLinearLayout.addView(observationTitle);
             childLinearLayout.addView(observationNotes);
+            childLinearLayout.addView(actionObservationLayout);
+
             containerLayout.addView(timeLayout);
             containerLayout.addView(childLinearLayout);
 
             containerDetails.addView(containerLayout);
         }
+    }
+    protected void onResume() {
+        super.onResume();
     }
     protected void mapping(){
         hikeDesti = (TextView)findViewById(R.id.hikeDesti);

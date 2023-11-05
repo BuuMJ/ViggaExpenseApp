@@ -192,14 +192,14 @@ public class listtrip extends AppCompatActivity {
                     0,
                     LinearLayout.LayoutParams.WRAP_CONTENT
             );
-            editParams.setMargins(0,12,4,0);
+            editParams.setMargins(0,12,12,0);
             editParams.weight = 1;
 
             LinearLayout.LayoutParams deleteParams = new LinearLayout.LayoutParams(
                     0,
                     LinearLayout.LayoutParams.WRAP_CONTENT
             );
-            deleteParams.setMargins(4,12,0,0);
+            deleteParams.setMargins(12,12,0,0);
             deleteParams.weight = 1;
 
             editHike.setLayoutParams(editParams);
@@ -292,9 +292,7 @@ public class listtrip extends AppCompatActivity {
                     dataTrip tripInfo = (dataTrip) view.getTag();
                     if(tripInfo != null){
                         Intent intent = new Intent(listtrip.this, detailtrip.class);
-//                        List<Observation> observationListForTrip = getObservationListForTrip(tripInfo.getId());
                         intent.putExtra("tripInfo", tripInfo);
-//                        intent.putExtra("observationListForTrip", (Serializable) observationListForTrip);
                         startActivity(intent);
                     }
                 }
@@ -461,14 +459,14 @@ public class listtrip extends AppCompatActivity {
                     0,
                     LinearLayout.LayoutParams.WRAP_CONTENT
             );
-            editParams.setMargins(0,12,4,0);
+            editParams.setMargins(0,12,12,0);
             editParams.weight = 1;
 
             LinearLayout.LayoutParams deleteParams = new LinearLayout.LayoutParams(
                     0,
                     LinearLayout.LayoutParams.WRAP_CONTENT
             );
-            deleteParams.setMargins(4,12,0,0);
+            deleteParams.setMargins(12,12,0,0);
             deleteParams.weight = 1;
 
             editHike.setLayoutParams(editParams);
