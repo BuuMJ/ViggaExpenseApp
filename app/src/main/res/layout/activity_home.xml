@@ -83,7 +83,7 @@
                         android:drawableTop="@drawable/baseline_add_24"
                         android:gravity="center_horizontal|center_vertical"
                         android:paddingTop="30dp"
-                        android:text="New Trip"
+                        android:text="New Hike"
                         android:textSize="20dp"
                         android:textStyle="bold"
                         app:backgroundTint="@null"
@@ -99,7 +99,7 @@
                         android:drawableTop="@drawable/baseline_playlist_add_24"
                         android:gravity="center_horizontal|center_vertical"
                         android:paddingTop="30dp"
-                        android:text="trip list"
+                        android:text="Hike list"
                         android:textSize="20dp"
                         android:textStyle="bold"
                         app:backgroundTint="@null"
@@ -131,7 +131,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/goAddTrip" />
 
                     <Button
-                        android:id="@+id/btnBackup"
+                        android:id="@+id/goAboutUs"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="16dp"

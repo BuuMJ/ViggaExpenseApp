@@ -5,7 +5,9 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -187,10 +189,42 @@ public class newtrip extends AppCompatActivity {
             Toast.makeText(newtrip.this, "Please check the box to agree to the terms", Toast.LENGTH_SHORT).show();
         }
         else{
-            createNewTrip();
-            Toast.makeText(newtrip.this, "The new trip has been successfully created", Toast.LENGTH_SHORT).show();
-            Intent listTrip = new Intent(this, listtrip.class);
-            startActivity(listTrip);
+            AlertDialog.Builder builder = new AlertDialog.Builder(newtrip.this);
+            builder.setTitle("Confirm Infomation")
+                    .setMessage("Name Of Hike: " + edtTripName.getText().toString() + "\n" +
+                                "\n" +
+                                "Destination: " + edtDesti.getText().toString() + "\n" +
+                                "\n" +
+                                "Budget: " + edtBudget.getText().toString() + "\n" +
+                                "\n" +
+                                "Departure Day: " + datePickerStartDate.getText().toString() + "\n" +
+                                "\n" +
+                                "End Day: " + datePickerEndDate.getText().toString() + "\n" +
+                                "\n" +
+                                "Distance: " + edtLength.getText().toString() + "M" + "\n" +
+                                "\n" +
+                                "Difficulty: " + edtLevel.getSelectedItem().toString() + "\n" +
+                                "\n" +
+                                "Parking Lot: " + edtParking.getSelectedItem().toString() + "\n" +
+                                "\n" +
+                                "Destination: " + edtDesc.getText().toString())
+                    .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            createNewTrip();
+                            Intent listTrip = new Intent(newtrip.this, listtrip.class);
+                            startActivity(listTrip);
+                            Toast.makeText(newtrip.this, edtTripName.getText().toString() + " has been created", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    });
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
         }
     }
     private void  createNewTrip(){

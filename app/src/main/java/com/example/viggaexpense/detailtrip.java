@@ -29,7 +29,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 public class detailtrip extends AppCompatActivity {
-    TextView hikeDesti, difficult, length, duration, hikeName;
+    TextView hikeDesti, difficult, length, duration, hikeName, txtBudget;
     Button btnFinish, btnAddMore;
     LinearLayout containerDetails;
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -42,6 +42,12 @@ public class detailtrip extends AppCompatActivity {
 
         hikeDesti.setText(tripInfo.getDesti());
         hikeName.setText(tripInfo.getName());
+        String budgetText = ("Total Budget: " + tripInfo.getBudget() +"$");
+        SpannableStringBuilder budgetBuilder = new SpannableStringBuilder(budgetText);
+        int startBudget = 12;
+        int endBudget = startBudget + (budgetText.length() - startBudget);
+        budgetBuilder.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), startBudget, endBudget, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+        txtBudget.setText(budgetBuilder);
         String difficultyText = "Difficulty: " + tripInfo.getLevel();
         SpannableStringBuilder difficultyBuilder = new SpannableStringBuilder(difficultyText);
         int startLevel = 11;
@@ -264,5 +270,6 @@ public class detailtrip extends AppCompatActivity {
         btnFinish = (Button)findViewById(R.id.btnFinish);
         btnAddMore = (Button)findViewById(R.id.btnAddMore);
         containerDetails = (LinearLayout)findViewById(R.id.containerDetails);
+        txtBudget = (TextView)findViewById(R.id.txtBudget);
     }
 }

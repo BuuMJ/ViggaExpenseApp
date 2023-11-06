@@ -25,7 +25,7 @@ public class home extends AppCompatActivity {
     DrawerLayout drawerLayout;
     ImageView menu, closeMenuIcon;
     LinearLayout nav_home, nav_newtrip, nav_listtrip, nav_about;
-    Button goAddTrip, goListTrip, btnReset;
+    Button goAddTrip, goListTrip, btnReset, goAboutUs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +67,13 @@ public class home extends AppCompatActivity {
                         });
                 AlertDialog alertDialog = builder.create();
                 alertDialog.show();
+            }
+        });
+        goAboutUs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent goAboutUs = new Intent(home.this, about.class);
+                startActivity(goAboutUs);
             }
         });
         nav_home.setBackgroundColor(getResources().getColor(R.color.nav_color));
@@ -120,6 +127,7 @@ public class home extends AppCompatActivity {
         nav_about = (LinearLayout)findViewById(R.id.about);
         closeMenuIcon = (ImageView)findViewById(R.id.closeMenuIcon);
         btnReset = (Button)findViewById(R.id.btnReset);
+        goAboutUs = (Button)findViewById(R.id.goAboutUs);
     }
 
     public static void openDrawer(DrawerLayout drawerLayout){
