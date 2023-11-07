@@ -2,6 +2,7 @@ package com.example.viggaexpense;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -29,7 +30,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 public class detailtrip extends AppCompatActivity {
-    TextView hikeDesti, difficult, length, duration, hikeName, txtBudget;
+    TextView hikeDesti, difficult, length, duration, hikeName, txtBudget, description;
     Button btnFinish, btnAddMore;
     LinearLayout containerDetails;
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -42,12 +43,14 @@ public class detailtrip extends AppCompatActivity {
 
         hikeDesti.setText(tripInfo.getDesti());
         hikeName.setText(tripInfo.getName());
+
         String budgetText = ("Total Budget: " + tripInfo.getBudget() +"$");
         SpannableStringBuilder budgetBuilder = new SpannableStringBuilder(budgetText);
         int startBudget = 12;
         int endBudget = startBudget + (budgetText.length() - startBudget);
         budgetBuilder.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), startBudget, endBudget, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
         txtBudget.setText(budgetBuilder);
+
         String difficultyText = "Difficulty: " + tripInfo.getLevel();
         SpannableStringBuilder difficultyBuilder = new SpannableStringBuilder(difficultyText);
         int startLevel = 11;
@@ -55,6 +58,7 @@ public class detailtrip extends AppCompatActivity {
         Log.d("aaaa", "a a " + endLevel);
         difficultyBuilder.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), startLevel, endLevel, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
         difficult.setText(difficultyBuilder);
+
         int metterToKillometter = Integer.parseInt(tripInfo.getLength());
         String lengthText;
         if(metterToKillometter < 1000){
@@ -102,6 +106,31 @@ public class detailtrip extends AppCompatActivity {
         int endDuration = startDuration + (durationText.length() - startDuration);
         durationBuilder.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), startDuration, endDuration, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
         duration.setText(durationBuilder);
+
+        if(tripInfo.getDesc().toString().equals("")){
+            description.setVisibility(View.GONE);
+            ConstraintLayout.LayoutParams marginBottom = new ConstraintLayout.LayoutParams(
+                    ConstraintLayout.LayoutParams.MATCH_PARENT,
+                    ConstraintLayout.LayoutParams.WRAP_CONTENT
+            );
+            marginBottom.setMargins(20,8,20,20);
+            marginBottom.topToBottom = R.id.length;
+            marginBottom.bottomToBottom = R.id.card_detail;
+            marginBottom.startToStart = R.id.card_detail;
+            marginBottom.endToEnd = R.id.card_detail;
+            duration.setLayoutParams(marginBottom);
+        }
+        else{
+            description.setVisibility(View.VISIBLE);
+            String descriptionText = "Description: " + "\n" + tripInfo.getDesc();
+            SpannableStringBuilder descriptionBuilder = new SpannableStringBuilder(descriptionText);
+            int startDesc = 12;
+            int endDesc = startDesc + (descriptionText.length() - startDesc);
+            Log.e("endDesc", "onCreate: " + endDesc);
+            descriptionBuilder.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), startDesc, endDesc, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+            description.setText(descriptionBuilder);
+        }
+
         btnFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -242,6 +271,8 @@ public class detailtrip extends AppCompatActivity {
             observationTime.setTextColor(getColor(R.color.greyColor));
 
             observationNotes.setText(observation.getObservationNotes());
+            observationNotes.setTextColor(getColor(R.color.greyColor));
+            observationNotes.setTextSize(16);
 
             actionObservationLayout.addView(editObservation);
             actionObservationLayout.addView(deleteObservation);
@@ -271,5 +302,6 @@ public class detailtrip extends AppCompatActivity {
         btnAddMore = (Button)findViewById(R.id.btnAddMore);
         containerDetails = (LinearLayout)findViewById(R.id.containerDetails);
         txtBudget = (TextView)findViewById(R.id.txtBudget);
+        description = (TextView)findViewById(R.id.description);
     }
 }

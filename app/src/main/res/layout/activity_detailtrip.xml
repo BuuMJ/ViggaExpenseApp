@@ -67,6 +67,7 @@
                 android:orientation="vertical">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/card_detail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -156,15 +157,30 @@
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="20dp"
-                        android:layout_marginBottom="20dp"
                         android:gravity="center"
                         android:text="ccc"
+                        android:textColor="@color/black"
+                        android:textSize="20dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/length" />
+
+                    <TextView
+                        android:id="@+id/description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginBottom="20dp"
+                        android:gravity="center"
+                        android:text="TextView"
                         android:textColor="@color/black"
                         android:textSize="20dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/length" />
+                        app:layout_constraintTop_toBottomOf="@+id/duration" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <ScrollView

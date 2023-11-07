@@ -181,21 +181,25 @@ public class newtrip extends AppCompatActivity {
         else if(edtParking.getSelectedItem().toString().equals("Select Parking option")){
             ((TextView)edtParking.getSelectedView()).setError("Please select the parking option");
         }
-        else if(edtDesc.getText().toString().equals("")){
-            edtDesc.setError("Please fill in your Description");
-        }
         else if(!checkReuire.isChecked()){
             checkReuire.setError("");
             Toast.makeText(newtrip.this, "Please check the box to agree to the terms", Toast.LENGTH_SHORT).show();
         }
         else{
+            String checkDesc;
+            if(edtDesc.getText().toString().equals("")){
+                checkDesc = "null";
+            }
+            else {
+                checkDesc = edtDesc.getText().toString();
+            }
             AlertDialog.Builder builder = new AlertDialog.Builder(newtrip.this);
             builder.setTitle("Confirm Infomation")
                     .setMessage("Name Of Hike: " + edtTripName.getText().toString() + "\n" +
                                 "\n" +
                                 "Destination: " + edtDesti.getText().toString() + "\n" +
                                 "\n" +
-                                "Budget: " + edtBudget.getText().toString() + "\n" +
+                                "Budget: " + edtBudget.getText().toString() + "$" + "\n" +
                                 "\n" +
                                 "Departure Day: " + datePickerStartDate.getText().toString() + "\n" +
                                 "\n" +
@@ -207,7 +211,7 @@ public class newtrip extends AppCompatActivity {
                                 "\n" +
                                 "Parking Lot: " + edtParking.getSelectedItem().toString() + "\n" +
                                 "\n" +
-                                "Destination: " + edtDesc.getText().toString())
+                                "Description: " + checkDesc)
                     .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {

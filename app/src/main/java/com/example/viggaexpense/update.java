@@ -2,7 +2,9 @@ package com.example.viggaexpense;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -110,11 +112,50 @@ public class update extends AppCompatActivity {
                     String parking = edtParkingEdit.getSelectedItem().toString();
                     String length = edtLengthEdit.getText().toString();
                     String budget = edtBudgetEdit.getText().toString();
-                    DatabaseHelpers dbHelpers = new DatabaseHelpers(getApplicationContext());
-                    dbHelpers.updateTrip(tripId, name, level, desti, startDate, endDate, desc, parking, length, budget);
-                    Toast.makeText(update.this, "Updated Successfully", Toast.LENGTH_SHORT).show();
-                    Intent listTrip = new Intent(update.this, listtrip.class);
-                    startActivity(listTrip);
+                    String checkDesc;
+                    if(desc.equals("")){
+                        checkDesc = "null";
+                    }
+                    else {
+                        checkDesc = desc;
+                    }
+                    AlertDialog.Builder builder = new AlertDialog.Builder(update.this);
+                    builder.setTitle("Confirm Infomation")
+                            .setMessage("Name Of Hike: " + name + "\n" +
+                                    "\n" +
+                                    "Destination: " + desti + "\n" +
+                                    "\n" +
+                                    "Budget: " + budget + "$" + "\n" +
+                                    "\n" +
+                                    "Departure Day: " + startDate + "\n" +
+                                    "\n" +
+                                    "End Day: " + endDate + "\n" +
+                                    "\n" +
+                                    "Distance: " + length + "M" + "\n" +
+                                    "\n" +
+                                    "Difficulty: " + level + "\n" +
+                                    "\n" +
+                                    "Parking Lot: " + parking + "\n" +
+                                    "\n" +
+                                    "Description: " + checkDesc)
+                            .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    DatabaseHelpers dbHelpers = new DatabaseHelpers(getApplicationContext());
+                                    dbHelpers.updateTrip(tripId, name, level, desti, startDate, endDate, desc, parking, length, budget);
+                                    Toast.makeText(update.this, "Updated Successfully", Toast.LENGTH_SHORT).show();
+                                    Intent listTrip = new Intent(update.this, listtrip.class);
+                                    startActivity(listTrip);
+                                }
+                            })
+                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            });
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
                 }
             }
         });
