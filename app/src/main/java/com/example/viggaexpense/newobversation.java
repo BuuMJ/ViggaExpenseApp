@@ -34,6 +34,7 @@
             btnAddObvers.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
                     checkRequire();
                 }
             });
@@ -81,10 +82,6 @@
             }
             else if(edtTimeOfObversation.getText().toString().equals("")){
                 edtObversation.setError("Please fill time of the obversation");
-            }
-            else if(!checkReuire.isChecked()){
-                checkReuire.setError("");
-                Toast.makeText(newobversation.this, "Please check the box to agree to the terms", Toast.LENGTH_SHORT).show();
             }
             else{
                 createObversation();

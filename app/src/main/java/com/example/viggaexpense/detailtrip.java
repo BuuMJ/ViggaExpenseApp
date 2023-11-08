@@ -228,7 +228,6 @@ public class detailtrip extends AppCompatActivity {
                     Observation observationInfo = (Observation) containerLayout.getTag();
                     Intent intent = new Intent(detailtrip.this, updateobservation.class);
                     intent.putExtra("tripInfo", tripInfo);
-                    Log.d("aaaa", "onClick: " + tripInfo);
                     intent.putExtra("observationInfo", observationInfo);
                     startActivity(intent);
                 }

@@ -35,7 +35,8 @@ public class DatabaseHelpers extends SQLiteOpenHelper {
                     "%s TEXT," +
                     "%s TEXT," +
                     "%s TEXT)",
-            DATABASE_NAME, ID_COLUMN_NAME, TRIPNAME_COLUMN_NAME, TRIPLEVEL_COLUMN_NAME, TRIPDESTI_COLUMN_NAME, STARTDATE_COLUMN_NAME, ENDDATE_COLUMN_NAME, TRIPDESC_COLUMN_NAME, PARKING_COLUMN_NAME, TRIPLENGTH_COLUMN_NAME, TRIPBUDGET_COLUMN_NAME
+            DATABASE_NAME, ID_COLUMN_NAME, TRIPNAME_COLUMN_NAME, TRIPLEVEL_COLUMN_NAME, TRIPDESTI_COLUMN_NAME, STARTDATE_COLUMN_NAME, ENDDATE_COLUMN_NAME,
+            TRIPDESC_COLUMN_NAME, PARKING_COLUMN_NAME, TRIPLENGTH_COLUMN_NAME, TRIPBUDGET_COLUMN_NAME
     );
     private static final String TABLE_OBSERVATIONS = "observations";
     private static final String COLUMN_OBSERVATION_ID = "observation_id";
@@ -51,7 +52,8 @@ public class DatabaseHelpers extends SQLiteOpenHelper {
                     "%s TEXT, " +
                     "%s TEXT, " +
                     "%s TEXT)",
-            TABLE_OBSERVATIONS, COLUMN_OBSERVATION_ID, COLUMN_TRIP_ID_OBSERVATION, COLUMN_OBSERVATION_TITLE, COLUMN_OBSERVATION_TIME, COLUMN_OBSERVATION_NOTES
+            TABLE_OBSERVATIONS, COLUMN_OBSERVATION_ID, COLUMN_TRIP_ID_OBSERVATION, COLUMN_OBSERVATION_TITLE,
+            COLUMN_OBSERVATION_TIME, COLUMN_OBSERVATION_NOTES
     );
 
 
@@ -96,7 +98,8 @@ public class DatabaseHelpers extends SQLiteOpenHelper {
     public List<dataTrip> getDetails() {
         List<dataTrip> tripList = new ArrayList<>();
         Cursor results = database.query("list_trip",
-                new String[]{"trip_id", "name", "level", "desti", "start_date", "end_date", "desc", "parking", "length", "budget"}, null, null, null, null, "trip_id");
+                new String[]{"trip_id", "name", "level", "desti", "start_date", "end_date", "desc", "parking", "length", "budget"},
+                null, null, null, null, "trip_id");
 
         results.moveToFirst();
         while (!results.isAfterLast()) {
@@ -157,7 +160,8 @@ public class DatabaseHelpers extends SQLiteOpenHelper {
 
         return observationList;
     }
-    public void updateTrip(String tripId,String name, String level, String desti, String start_date, String end_date, String desc, String parking, String length, String budget){
+    public void updateTrip(String tripId,String name, String level, String desti, String start_date,
+                           String end_date, String desc, String parking, String length, String budget){
         SQLiteDatabase database = getWritableDatabase();
         ContentValues rowValues = new ContentValues();
         rowValues.put(TRIPNAME_COLUMN_NAME , name);
@@ -173,9 +177,7 @@ public class DatabaseHelpers extends SQLiteOpenHelper {
     }
     public void deleteTrip(int tripId) {
         SQLiteDatabase database = getWritableDatabase();
-        String whereClause = "trip_id=?";
-        String[] whereArgs = {String.valueOf(tripId)};
-        database.delete("list_trip", whereClause, whereArgs);
+        database.delete(DATABASE_NAME, "trip_id=?", new String[]{String.valueOf(tripId)});
     }
     public void updateObservation(String observationId, String tripId, String observationTitle, String observationTime, String observationNotes){
         SQLiteDatabase database = getWritableDatabase();
@@ -188,9 +190,7 @@ public class DatabaseHelpers extends SQLiteOpenHelper {
     }
     public void deleteObversation(int obversationId){
         SQLiteDatabase database = getWritableDatabase();
-        String whereClause = "observation_id=?";
-        String[] whereArgs = {String.valueOf(obversationId)};
-        database.delete("observations", whereClause, whereArgs);
+        database.delete(TABLE_OBSERVATIONS, "observation_id=?", new String[]{String.valueOf(obversationId)});
     }
     public void resetDatabase() {
         SQLiteDatabase database = getWritableDatabase();

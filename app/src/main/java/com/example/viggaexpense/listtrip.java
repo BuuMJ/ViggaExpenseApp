@@ -63,7 +63,6 @@ public class listtrip extends AppCompatActivity {
         mappingListTrip();
         DatabaseHelpers dbHelpers = new DatabaseHelpers(getApplicationContext());
         List<dataTrip> tripList = dbHelpers.getDetails();
-        String[] tripArray = new String[tripList.size()];
         searchView.clearFocus();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -92,6 +91,9 @@ public class listtrip extends AppCompatActivity {
                     checkClick = false;
                     filter_search.setText("Filter Search");
                     filter_search.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.filtersearch, 0);
+                    dateSearchStart.setText("");
+                    dateSearchEnd.setText("");
+                    searchDesti.setText("");
                 }
             }
         });
@@ -278,7 +280,34 @@ public class listtrip extends AppCompatActivity {
             deleteHike.setTextColor(getResources().getColor(R.color.white));
             deleteHike.setTextSize(18);
 
+            LinearLayout levelLinearLayout = new LinearLayout(this);
+            levelLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
+            LinearLayout.LayoutParams levelLayoutParams = new LinearLayout.LayoutParams(
+                    400,
+                    80
+            );
+            levelLayoutParams.setMargins(0,0,0,14);
+            levelLinearLayout.setLayoutParams(levelLayoutParams);
+            ImageView showLV = new ImageView(this);
+            if(trip.getLevel().toString().equals("Very Easy")){
+                showLV.setImageResource(R.drawable.ic_lv1);
+            } else if (trip.getLevel().toString().equals("Easy")) {
+                showLV.setImageResource(R.drawable.ic_lv2);
+            }
+            else if (trip.getLevel().toString().equals("Moderate")) {
+                showLV.setImageResource(R.drawable.ic_lv3);
+            }
+            else if (trip.getLevel().toString().equals("Difficulty")) {
+                showLV.setImageResource(R.drawable.ic_lv4);
+            }
+            else if (trip.getLevel().toString().equals("Very Difficult")) {
+                showLV.setImageResource(R.drawable.ic_lv5);
+            }
+            levelLinearLayout.addView(showLV);
+            tripNameText.setGravity(Gravity.CENTER_VERTICAL);
+
             childLinearLayout.addView(tripNameText);
+            childLinearLayout.addView(levelLinearLayout);
             childLinearLayout.addView(infoTripText);
             childLinearLayout.addView(parkingText);
             childLinearLayout.addView(startDateText);
@@ -312,7 +341,6 @@ public class listtrip extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     dataTrip tripInfo = (dataTrip) childLinearLayout.getTag();
-                    if (tripInfo != null) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(listtrip.this);
                         builder.setTitle("Confirm Delete")
                                 .setMessage("Are you sure you want to delete this hike? \n" + "(" + tripInfo.getName() + ")")
@@ -333,7 +361,6 @@ public class listtrip extends AppCompatActivity {
                                 });
                         AlertDialog alertDialog = builder.create();
                         alertDialog.show();
-                    }
                 }
             });
 
@@ -545,7 +572,34 @@ public class listtrip extends AppCompatActivity {
             deleteHike.setTextColor(getResources().getColor(R.color.white));
             deleteHike.setTextSize(18);
 
+            LinearLayout levelLinearLayout = new LinearLayout(this);
+            levelLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
+            LinearLayout.LayoutParams levelLayoutParams = new LinearLayout.LayoutParams(
+                    400,
+                    100
+            );
+            levelLayoutParams.setMargins(0,0,0,14);
+            levelLinearLayout.setLayoutParams(levelLayoutParams);
+            ImageView showLV = new ImageView(this);
+            if(trip.getLevel().toString().equals("Very Easy")){
+                showLV.setImageResource(R.drawable.ic_lv1);
+            } else if (trip.getLevel().toString().equals("Easy")) {
+                showLV.setImageResource(R.drawable.ic_lv2);
+            }
+            else if (trip.getLevel().toString().equals("Moderate")) {
+                showLV.setImageResource(R.drawable.ic_lv3);
+            }
+            else if (trip.getLevel().toString().equals("Difficulty")) {
+                showLV.setImageResource(R.drawable.ic_lv4);
+            }
+            else if (trip.getLevel().toString().equals("Very Difficult")) {
+                showLV.setImageResource(R.drawable.ic_lv5);
+            }
+            levelLinearLayout.addView(showLV);
+            tripNameText.setGravity(Gravity.CENTER_VERTICAL);
+
             childLinearLayout.addView(tripNameText);
+            childLinearLayout.addView(levelLinearLayout);
             childLinearLayout.addView(infoTripText);
             childLinearLayout.addView(parkingText);
             childLinearLayout.addView(startDateText);
