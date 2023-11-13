@@ -90,6 +90,7 @@
                 createObversation();
                 Intent backToDetail = new Intent(newobversation.this, detailtrip.class);
                 backToDetail.putExtra("tripInfo", tripInfo);
+                Toast.makeText(newobversation.this, "A new observation has been added to this hike", Toast.LENGTH_SHORT).show();
                 startActivity(backToDetail);
             }
         }
