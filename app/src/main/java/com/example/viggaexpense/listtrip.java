@@ -368,7 +368,7 @@ public class listtrip extends AppCompatActivity {
         }
         if (parentLayout.getChildCount() == 0) {
             TextView emptyTextView = new TextView(this);
-            emptyTextView.setText("You have no trips listed");
+            emptyTextView.setText("You have no hikes listed");
             emptyTextView.setTextSize(18);
             emptyTextView.setTextColor(getResources().getColor(android.R.color.black));
             parentLayout.addView(emptyTextView);

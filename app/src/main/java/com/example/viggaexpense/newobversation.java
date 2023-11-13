@@ -83,6 +83,9 @@
             else if(edtTimeOfObversation.getText().toString().equals("")){
                 edtObversation.setError("Please fill time of the obversation");
             }
+            else if(!checkReuire.isChecked()){
+                checkReuire.setError("Please tick the condition box");
+            }
             else{
                 createObversation();
                 Intent backToDetail = new Intent(newobversation.this, detailtrip.class);
