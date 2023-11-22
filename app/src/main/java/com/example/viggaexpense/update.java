@@ -18,7 +18,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class update extends AppCompatActivity {
     EditText edtTripNameEdit, edtDestiEdit, edtLengthEdit, edtBudgetEdit, edtDescEdit;
@@ -68,7 +72,13 @@ public class update extends AppCompatActivity {
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
-                                String selectedDate = year + "-" + (month + 1) + "-" + dayOfMonth;
+                                String selectedDate;
+                                if (dayOfMonth < 10){
+                                    selectedDate = "0" + dayOfMonth + "/" + (month + 1) + "/" + year;
+                                }
+                                else {
+                                    selectedDate = dayOfMonth + "/" + (month + 1) + "/" + year;
+                                }
                                 datepickerstartEdit.setText(selectedDate);
                             }
                         },
@@ -85,7 +95,13 @@ public class update extends AppCompatActivity {
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
-                                String selectedDate = year + "-" + (month + 1) + "-" + dayOfMonth;
+                                String selectedDate;
+                                if (dayOfMonth < 10){
+                                    selectedDate = "0" + dayOfMonth + "/" + (month + 1) + "/" + year;
+                                }
+                                else {
+                                    selectedDate = dayOfMonth + "/" + (month + 1) + "/" + year;
+                                }
                                 datepickerendEdit.setText(selectedDate);
                             }
                         },
@@ -97,6 +113,45 @@ public class update extends AppCompatActivity {
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                try {
+                    SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                    Date checkStartDate = dateFormatter.parse(datepickerstartEdit.getText().toString());
+                    Date checkEndDate = dateFormatter.parse(datepickerendEdit.getText().toString());
+                    Calendar calendar = Calendar.getInstance();
+
+                    calendar.setTime(checkStartDate);
+                    calendar.set(Calendar.HOUR_OF_DAY, 0);
+                    calendar.set(Calendar.MINUTE, 0);
+                    calendar.set(Calendar.SECOND, 0);
+                    calendar.set(Calendar.MILLISECOND, 0);
+                    checkStartDate = calendar.getTime();
+                    Log.d("test", "checkRequired: " + checkStartDate);
+
+                    calendar.setTime(checkEndDate);
+                    calendar.set(Calendar.HOUR_OF_DAY, 0);
+                    calendar.set(Calendar.MINUTE, 0);
+                    calendar.set(Calendar.SECOND, 0);
+                    calendar.set(Calendar.MILLISECOND, 0);
+                    checkEndDate = calendar.getTime();
+
+                    calendar.setTime(new Date()); // Setting to current date
+                    calendar.set(Calendar.HOUR_OF_DAY, 0);
+                    calendar.set(Calendar.MINUTE, 0);
+                    calendar.set(Calendar.SECOND, 0);
+                    calendar.set(Calendar.MILLISECOND, 0);
+                    Date checkCurrentDate = calendar.getTime();
+                    if(checkStartDate.before(checkCurrentDate)){
+                        datepickerstartEdit.setError("Start date cannot be before the current date");
+                        Toast.makeText(update.this, "Start date cannot be before the current date", Toast.LENGTH_SHORT).show();
+                        return;
+                    } else if (checkEndDate.before(checkStartDate)) {
+                        datepickerendEdit.setError("End date cannot be before the start date");
+                        Toast.makeText(update.this, "End date cannot be before the start date", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
                 if(!checkUpdate.isChecked()){
                     checkUpdate.setError("");
                     Toast.makeText(update.this, "Please check the box to agree with changes", Toast.LENGTH_SHORT).show();

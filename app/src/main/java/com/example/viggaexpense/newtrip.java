@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -24,8 +25,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toolbar;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 public class newtrip extends AppCompatActivity {
@@ -163,6 +167,45 @@ public class newtrip extends AppCompatActivity {
         });
     }
     protected void checkRequired(){
+        try {
+            SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            Date checkStartDate = dateFormatter.parse(datePickerStartDate.getText().toString());
+            Date checkEndDate = dateFormatter.parse(datePickerEndDate.getText().toString());
+            Calendar calendar = Calendar.getInstance();
+
+            calendar.setTime(checkStartDate);
+            calendar.set(Calendar.HOUR_OF_DAY, 0);
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.MILLISECOND, 0);
+            checkStartDate = calendar.getTime();
+            Log.d("test", "checkRequired: " + checkStartDate);
+
+            calendar.setTime(checkEndDate);
+            calendar.set(Calendar.HOUR_OF_DAY, 0);
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.MILLISECOND, 0);
+            checkEndDate = calendar.getTime();
+
+            calendar.setTime(new Date()); // Setting to current date
+            calendar.set(Calendar.HOUR_OF_DAY, 0);
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.MILLISECOND, 0);
+            Date checkCurrentDate = calendar.getTime();
+            if(checkStartDate.before(checkCurrentDate)){
+                datePickerStartDate.setError("Start date cannot be before the current date");
+                Toast.makeText(this, "Start date cannot be before the current date", Toast.LENGTH_SHORT).show();
+                return;
+            } else if (checkEndDate.before(checkStartDate)) {
+                datePickerEndDate.setError("End date cannot be before the start date");
+                Toast.makeText(this, "End date cannot be before the start date", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
         if(edtTripName.getText().toString().equals("")){
             edtTripName.setError("Please fill in your trip name");
         }
