@@ -49,8 +49,8 @@ public class home extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(home.this);
-                builder.setTitle("Confirm Reset")
-                        .setMessage("Are you sure you want to reset your database?")
+                builder.setTitle("Confirm Delete All Hike List")
+                        .setMessage("Are you sure you want to delete all your hike list?")
                         .setPositiveButton("Reset", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
